@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>設定画面デモ</title>
+    <style>
+      :root {
+        --bg: #eef0f6;
+        --card: #f8f9fd;
+        --line: #cdd5ea;
+        --ink: #1d3158;
+        --muted: #5c6f94;
+        --blue: #4a66c4;
+        --mint: #d8eee8;
+        --mint-deep: #b9dfd2;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+      }
+
+      .container {
+        max-width: 1120px;
+        margin: 28px auto;
+        padding: 0 16px 40px;
+      }
+
+      .panel {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 22px;
+        box-shadow: 0 4px 12px rgba(29, 49, 88, 0.06);
+      }
+
+      h1 {
+        margin: 0 0 10px;
+        font-size: 32px;
+      }
+
+      .description {
+        color: var(--muted);
+        margin-bottom: 18px;
+      }
+
+      .section {
+        border: 1px solid #bfcae6;
+        border-radius: 14px;
+        overflow: hidden;
+        margin-bottom: 16px;
+      }
+
+      .section-title {
+        margin: 0;
+        background: #d9deef;
+        border-bottom: 1px solid #c1cbe8;
+        padding: 12px 14px;
+        font-size: 20px;
+      }
+
+      .section-body {
+        background: #f2f4fb;
+        padding: 14px;
+      }
+
+      .table {
+        display: grid;
+        grid-template-columns: minmax(220px, 1.2fr) minmax(180px, 1fr) minmax(220px, 1.2fr);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      .table.head > div,
+      .table .cell {
+        padding: 10px 12px;
+        border-right: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+      }
+
+      .table .cell:nth-child(3n),
+      .table.head > div:nth-child(3n) { border-right: none; }
+      .table .cell:last-child,
+      .table .cell:nth-last-child(2),
+      .table .cell:nth-last-child(3) { border-bottom: none; }
+
+      .table.head {
+        background: #e8edf9;
+        font-weight: 700;
+      }
+
+      .label { font-weight: 700; }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid #9eb0e6;
+        padding: 5px 10px;
+        border-radius: 999px;
+        color: #264282;
+        background: #f4f6fd;
+        font-size: 14px;
+      }
+
+      .yes { color: #1b6b52; font-weight: 700; }
+
+      .subgrid {
+        margin-top: 14px;
+        border: 1px solid #b6d5cb;
+        border-radius: 12px;
+        background: var(--mint);
+        padding: 14px;
+      }
+
+      .radio-row {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+      }
+
+      .radio-row label {
+        background: #edf4f1;
+        border: 1px solid #9ec3b6;
+        padding: 8px 12px;
+        border-radius: 999px;
+        display: inline-flex;
+        gap: 8px;
+      }
+
+      .abc {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr 1.3fr;
+        border: 1px solid #a8cfc1;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .abc div {
+        padding: 9px 10px;
+        border-bottom: 1px solid #a8cfc1;
+        border-right: 1px solid #a8cfc1;
+        background: #eff7f4;
+      }
+
+      .abc div:nth-child(3n) { border-right: none; }
+      .abc div:nth-last-child(-n + 3) { border-bottom: none; }
+
+      .note {
+        margin-top: 14px;
+        padding: 12px;
+        background: #f3f5fd;
+        border: 1px dashed #aebbe0;
+        border-radius: 10px;
+        color: #38507c;
+        line-height: 1.5;
+      }
+
+      @media (max-width: 900px) {
+        .table,
+        .abc { grid-template-columns: 1fr; }
+        .table .cell,
+        .table.head > div,
+        .abc div { border-right: none !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <section class="panel">
+        <h1>設定画面</h1>
+        <p class="description">参考画像の青 × ミント系トーンに合わせた配色で、主要設定を一覧化しています。</p>
+
+        <article class="section">
+          <h2 class="section-title">基本設定</h2>
+          <div class="section-body">
+            <div class="table head">
+              <div>項目名</div>
+              <div>設定値</div>
+              <div>備考</div>
+            </div>
+            <div class="table">
+              <div class="cell label">粗利益率（旧：目標利益率）</div><div class="cell">5%以上</div><div class="cell"></div>
+              <div class="cell label">予測30日販売数</div><div class="cell">1以上</div><div class="cell"></div>
+              <div class="cell label">関税割合</div><div class="cell">17.80%</div><div class="cell"></div>
+              <div class="cell label">送料係数</div><div class="cell">1.2</div><div class="cell"></div>
+              <div class="cell label">Amazonポイントを加味する</div><div class="cell"><span class="yes">〇</span></div><div class="cell"></div>
+              <div class="cell label">Amazonクーポンを加味する</div><div class="cell"><span class="yes">〇</span></div><div class="cell"></div>
+              <div class="cell label">リサーチ時にセラーIDを収集する</div><div class="cell"><span class="yes">〇</span></div><div class="cell"></div>
+              <div class="cell label">知財</div><div class="cell"><span class="yes">〇</span></div><div class="cell"></div>
+              <div class="cell label">大型</div><div class="cell"><span class="yes">〇</span></div><div class="cell"></div>
+              <div class="cell label">T売上目標</div><div class="cell">100000</div><div class="cell"></div>
+              <div class="cell label">T利益目標</div><div class="cell">100000</div><div class="cell"></div>
+              <div class="cell label">対象外ショップ</div><div class="cell">Yahoo!、楽天</div><div class="cell"></div>
+              <div class="cell label">SLC利用</div><div class="cell"><span class="badge">利用中</span></div><div class="cell"></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="section">
+          <h2 class="section-title">ASINスコア算出期間(※)</h2>
+          <div class="section-body">
+            <div class="subgrid">
+              <div class="radio-row">
+                <label><input type="radio" name="term" /> 短期（速度重視）</label>
+                <label><input type="radio" name="term" checked /> 標準</label>
+                <label><input type="radio" name="term" /> 長期（安定重視）</label>
+              </div>
+
+              <div class="abc">
+                <div class="label">A.データ範囲：</div><div>90</div><div>日</div>
+                <div class="label">B.時間重み T（直近の減衰）：</div><div>60</div><div>日</div>
+                <div class="label">C.周期判定 P（分散の効き）：</div><div>60</div><div>日</div>
+                <div class="label">分散の強さ：</div><div>1.0</div><div></div>
+                <div class="label">回数の効き：</div><div>3</div><div>回</div>
+                <div class="label">直近の重み：</div><div>0.5</div><div></div>
+                <div class="label">発売開始～現在までの日数：</div><div>120</div><div></div>
+                <div class="label">乖離率の影響（最大値）：</div><div>20.00%</div><div>±○%</div>
+                <div class="label">推奨しきい値：</div><div>0.90</div><div></div>
+              </div>
+            </div>
+
+            <div class="note">
+              <strong>「ASINスコア算出期間」設定について</strong><br />
+              以下の通り「短期（速度重視）」「標準」「長期（安定重視）」を選択できます。コアユーザー向けに A/B/C の手動調整も可能です。<br /><br />
+              ・短期（速度重視）：A=60日 / B=30日 / C=30日<br />
+              ・標準：A=90日 / B=60日 / C=60日<br />
+              ・長期（安定重視）：A=180日 / B=90日 / C=90日
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>
