@@ -175,7 +175,7 @@
       }
 
       .inner-section-title {
-        margin: 6px 0 6px;
+        margin: 12px 0 6px;
         font-size: 15px;
         font-weight: 800;
         color: #1d3158;
@@ -386,6 +386,11 @@
         const selectedTerm = document.querySelector('input[name="term"]:checked')?.value || "standard";
         const values = termValueMap[selectedTerm] || termValueMap.standard;
         const isCustom = selectedTerm === "custom";
+        const termValuesById = {
+          "term-a": values.a,
+          "term-b": values.b,
+          "term-c": values.c
+        };
 
         termAInput.value = values.a;
         termBInput.value = values.b;
@@ -397,8 +402,7 @@
         });
         termLabelEls.forEach((label) => {
           const forId = label.dataset.termLabelFor;
-          const targetInput = document.getElementById(forId);
-          label.textContent = targetInput?.value || "";
+          label.textContent = termValuesById[forId] ?? "";
           label.classList.toggle("show", !isCustom);
         });
       };
@@ -433,14 +437,6 @@
         cleanedTexts.forEach(({ node, sanitized }) => {
           node.textContent = sanitized;
         });
-        termAbc.classList.toggle("is-disabled", !isCustom);
-      };
-
-      const termValueMap = {
-        short: { a: "60", b: "30", c: "30" },
-        standard: { a: "90", b: "60", c: "60" },
-        long: { a: "180", b: "90", c: "90" },
-        custom: { a: "", b: "", c: "" }
       };
 
       amountInputs.forEach((input) => {
