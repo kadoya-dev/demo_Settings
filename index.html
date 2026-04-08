@@ -390,6 +390,13 @@
           label.textContent = targetInput?.value || "";
           label.classList.toggle("show", !isCustom);
         });
+        termLabelEls.forEach((label) => {
+          const forId = label.dataset.termLabelFor;
+          const targetInput = document.getElementById(forId);
+          label.textContent = targetInput?.value || "";
+          label.classList.toggle("show", !isCustom);
+        });
+        termAbc.classList.toggle("is-disabled", !isCustom);
       };
 
       const formatNumberWithComma = (value) => {
