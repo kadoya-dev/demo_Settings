@@ -100,10 +100,8 @@
       .readonly-value {
         width: 100%;
         min-height: 34px;
-        border: 1px solid #d2d9ed;
-        border-radius: 8px;
-        padding: 6px 10px;
-        background: #edf1fb;
+        padding: 6px 0;
+        background: transparent;
         color: #31486f;
         display: flex;
         align-items: center;
@@ -126,6 +124,33 @@
         display: inline-flex;
         align-items: center;
         gap: 8px;
+      }
+
+      .radio-group-inline {
+        display: inline-flex;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+
+      .radio-group-inline label {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .tooltip-mark {
+        display: inline-flex;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        color: #37568f;
+        border: 1px solid #9ab0dd;
+        background: #edf3ff;
+        margin-left: 6px;
+        cursor: help;
       }
 
       .subgrid {
@@ -188,13 +213,16 @@
 
       .btn {
         border-radius: 10px;
-        min-height: 40px;
-        padding: 0 18px;
+        min-height: 54px;
+        min-width: 124px;
+        padding: 0 28px;
         border: 1px solid #99aad8;
         background: #f3f6ff;
         color: #27427f;
-        font-weight: 700;
+        font-weight: 800;
+        font-size: 18px;
         cursor: pointer;
+        box-shadow: 0 3px 10px rgba(43, 74, 139, 0.14);
       }
 
       .btn.primary {
@@ -236,7 +264,17 @@
               <div class="cell label">T売上目標</div><div class="cell"><div class="input-with-unit"><input class="setting-input" type="number" value="100000" min="0" /><span class="unit">円</span></div></div>
               <div class="cell label">T利益目標</div><div class="cell"><div class="input-with-unit"><input class="setting-input" type="number" value="100000" min="0" /><span class="unit">円</span></div></div>
               <div class="cell label">対象外ショップ</div><div class="cell"><input class="setting-input" type="text" value="Yahoo!、楽天" /></div>
-              <div class="cell label">SLC利用</div><div class="cell"><select class="setting-select"><option selected>利用中</option><option>未利用</option></select></div>
+              <div class="cell label">SLC利用</div>
+              <div class="cell">
+                <div class="radio-group-inline">
+                  <label><input type="radio" name="slc_usage" value="利用中" checked />利用中</label>
+                  <label><input type="radio" name="slc_usage" value="未利用" />未利用</label>
+                </div>
+              </div>
+              <div class="cell label slc-extra-row" hidden>1点あたりの必要経費<span class="tooltip-mark" title="送料や手数料から算出">?</span></div>
+              <div class="cell slc-extra-row" hidden><div class="input-with-unit"><input class="setting-input" type="number" value="500" min="0" /><span class="unit">円</span></div></div>
+              <div class="cell label slc-extra-row" hidden>サーチャージ率</div>
+              <div class="cell slc-extra-row" hidden><div class="input-with-unit"><input class="setting-input" type="number" value="30.00" step="0.01" min="0" /><span class="unit">%</span></div></div>
             </div>
           </div>
         </article>
@@ -278,5 +316,23 @@
         </div>
       </section>
     </main>
+    <script>
+      const usageRadios = document.querySelectorAll('input[name="slc_usage"]');
+      const slcExtraRows = document.querySelectorAll(".slc-extra-row");
+
+      const syncSlcRows = () => {
+        const selectedUsage = document.querySelector('input[name="slc_usage"]:checked')?.value;
+        const showExtra = selectedUsage === "未利用";
+        slcExtraRows.forEach((row) => {
+          row.hidden = !showExtra;
+        });
+      };
+
+      usageRadios.forEach((radio) => {
+        radio.addEventListener("change", syncSlcRows);
+      });
+
+      syncSlcRows();
+    </script>
   </body>
 </html>
