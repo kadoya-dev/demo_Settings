@@ -24,7 +24,7 @@
       }
 
       .container {
-        max-width: 1120px;
+        max-width: 940px;
         margin: 28px auto;
         padding: 0 16px 40px;
       }
@@ -39,7 +39,7 @@
 
       h1 {
         margin: 0 0 16px;
-        font-size: 32px;
+        font-size: 30px;
       }
 
       .section {
@@ -64,17 +64,17 @@
 
       .table {
         display: grid;
-        grid-template-columns: minmax(280px, 1.5fr) minmax(300px, 1fr);
+        grid-template-columns: minmax(200px, 1fr) minmax(260px, 1.2fr);
         border: 1px solid var(--line);
         border-radius: 12px;
         overflow: hidden;
       }
 
       .table .cell {
-        padding: 10px 12px;
+        padding: 9px 10px;
         border-right: 1px solid var(--line);
         border-bottom: 1px solid var(--line);
-        min-height: 50px;
+        min-height: 46px;
         display: flex;
         align-items: center;
       }
@@ -128,6 +128,19 @@
         gap: 8px;
       }
 
+      .choice-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 14px;
+      }
+
+      .choice-row label {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 14px;
+      }
+
       .subgrid {
         margin-top: 14px;
         border: 1px solid #b6d5cb;
@@ -145,7 +158,7 @@
 
       .radio-row {
         display: flex;
-        gap: 14px;
+        gap: 10px;
         flex-wrap: wrap;
         margin-bottom: 12px;
       }
@@ -153,22 +166,22 @@
       .radio-row label {
         background: #edf4f1;
         border: 1px solid #9ec3b6;
-        padding: 8px 12px;
+        padding: 6px 10px;
         border-radius: 999px;
         display: inline-flex;
-        gap: 8px;
+        gap: 6px;
       }
 
       .abc {
         display: grid;
-        grid-template-columns: 1.8fr 1fr 0.8fr;
+        grid-template-columns: 1.5fr 1fr 0.7fr;
         border: 1px solid #a8cfc1;
         border-radius: 10px;
         overflow: hidden;
       }
 
       .abc div {
-        padding: 9px 10px;
+        padding: 8px 10px;
         border-bottom: 1px solid #a8cfc1;
         border-right: 1px solid #a8cfc1;
         background: #eff7f4;
@@ -235,7 +248,15 @@
               <div class="cell label">大型</div><div class="cell"><label class="toggle"><input type="checkbox" checked />有効</label></div>
               <div class="cell label">T売上目標</div><div class="cell"><div class="input-with-unit"><input class="setting-input" type="number" value="100000" min="0" /><span class="unit">円</span></div></div>
               <div class="cell label">T利益目標</div><div class="cell"><div class="input-with-unit"><input class="setting-input" type="number" value="100000" min="0" /><span class="unit">円</span></div></div>
-              <div class="cell label">対象外ショップ</div><div class="cell"><input class="setting-input" type="text" value="Yahoo!、楽天" /></div>
+              <div class="cell label">対象ショップ</div>
+              <div class="cell">
+                <div class="choice-row">
+                  <label><input type="radio" name="shop" checked />Amazon</label>
+                  <label><input type="radio" name="shop" />Yahoo!</label>
+                  <label><input type="radio" name="shop" />楽天</label>
+                  <label><input type="radio" name="shop" />ヨドバシ</label>
+                </div>
+              </div>
               <div class="cell label">SLC利用</div><div class="cell"><select class="setting-select"><option selected>利用中</option><option>未利用</option></select></div>
             </div>
           </div>
@@ -245,16 +266,17 @@
           <h2 class="section-title">ASINスコア算出設定</h2>
           <div class="section-body">
             <div class="subgrid">
-              <p class="subgrid-title">算出期間(※)</p>
-              <div class="radio-row">
-                <label><input type="radio" name="term" /> 短期（速度重視）</label>
-                <label><input type="radio" name="term" checked /> 標準</label>
-                <label><input type="radio" name="term" /> 長期（安定重視）</label>
+              <p class="subgrid-title">算出期間</p>
+              <div class="radio-row" id="termRadios">
+                <label><input type="radio" name="term" value="short" /> 短期（速度重視）</label>
+                <label><input type="radio" name="term" value="standard" checked /> 標準</label>
+                <label><input type="radio" name="term" value="long" /> 長期（安定重視）</label>
+                <label><input type="radio" name="term" value="custom" /> カスタマイズ</label>
               </div>
               <div class="abc">
-                <div class="label">A.データ範囲</div><div><input class="setting-input" type="number" value="90" min="1" /></div><div>日</div>
-                <div class="label">B.時間重み T（直近の減衰）</div><div><input class="setting-input" type="number" value="60" min="1" /></div><div>日</div>
-                <div class="label">C.周期判定 P（分散の効き）</div><div><input class="setting-input" type="number" value="60" min="1" /></div><div>日</div>
+                <div class="label">A.データ範囲</div><div><input id="rangeA" class="setting-input" type="number" value="90" min="1" /></div><div>日</div>
+                <div class="label">B.時間重み</div><div><input id="weightB" class="setting-input" type="number" value="60" min="1" /></div><div>日</div>
+                <div class="label">C.周期判定</div><div><input id="periodC" class="setting-input" type="number" value="60" min="1" /></div><div>日</div>
               </div>
             </div>
 
@@ -278,5 +300,36 @@
         </div>
       </section>
     </main>
+
+    <script>
+      (() => {
+        const presets = {
+          short: { a: 60, b: 30, c: 30 },
+          standard: { a: 90, b: 60, c: 60 },
+          long: { a: 180, b: 90, c: 90 },
+          custom: { a: "", b: "", c: "" }
+        };
+
+        const inputA = document.getElementById("rangeA");
+        const inputB = document.getElementById("weightB");
+        const inputC = document.getElementById("periodC");
+        const radios = document.querySelectorAll('input[name="term"]');
+
+        const applyPreset = (key) => {
+          const values = presets[key];
+          if (!values) return;
+          inputA.value = values.a;
+          inputB.value = values.b;
+          inputC.value = values.c;
+        };
+
+        radios.forEach((radio) => {
+          radio.addEventListener("change", (event) => {
+            if (!event.target.checked) return;
+            applyPreset(event.target.value);
+          });
+        });
+      })();
+    </script>
   </body>
 </html>
