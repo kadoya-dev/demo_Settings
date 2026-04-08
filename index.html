@@ -65,7 +65,6 @@
       .table {
         display: grid;
         grid-template-columns: 55% 45%;
-        grid-template-columns: 55% 45%;
         border: 1px solid var(--line);
         border-radius: 12px;
         overflow: hidden;
@@ -284,7 +283,7 @@
                   <label><input type="radio" name="slc_usage" value="未利用" />未利用</label>
                 </div>
               </div>
-              <div class="cell label slc-extra-row">1点あたりの必要経費<span class="tooltip-mark" title="送料や手数料から算出">?</span></div>
+              <div class="cell label slc-extra-row" title="送料や手数料から算出">1点あたりの必要経費<span class="tooltip-mark" title="送料や手数料から算出">?</span></div>
               <div class="cell slc-extra-row"><div class="input-with-unit"><input id="slc-cost" class="setting-input amount-input" type="text" inputmode="numeric" value="500" /><span class="unit">円</span></div></div>
               <div class="cell label slc-extra-row">サーチャージ率</div>
               <div class="cell slc-extra-row"><div class="input-with-unit"><input id="slc-surcharge" class="setting-input" type="number" value="30.00" step="0.01" min="0" /><span class="unit">%</span></div></div>
@@ -303,7 +302,7 @@
                 <label><input type="radio" name="term" value="long" /> 長期（安定重視）</label>
                 <label><input type="radio" name="term" value="custom" /> カスタマイズ</label>
               </div>
-              <div class="abc">
+              <div id="term-abc" class="abc">
                 <div class="label">A.データ範囲</div><div><input id="term-a" class="setting-input" type="number" value="90" min="1" /></div><div>日</div>
                 <div class="label">B.時間重み</div><div><input id="term-b" class="setting-input" type="number" value="60" min="1" /></div><div>日</div>
                 <div class="label">C.周期判定</div><div><input id="term-c" class="setting-input" type="number" value="60" min="1" /></div><div>日</div>
@@ -335,12 +334,11 @@
       const slcExtraRows = document.querySelectorAll(".slc-extra-row");
       const slcCostInput = document.getElementById("slc-cost");
       const slcSurchargeInput = document.getElementById("slc-surcharge");
-      const slcCostInput = document.getElementById("slc-cost");
-      const slcSurchargeInput = document.getElementById("slc-surcharge");
       const termRadios = document.querySelectorAll('input[name="term"]');
       const termAInput = document.getElementById("term-a");
       const termBInput = document.getElementById("term-b");
       const termCInput = document.getElementById("term-c");
+      const termAbc = document.getElementById("term-abc");
       const amountInputs = document.querySelectorAll(".amount-input");
 
       const syncSlcRows = () => {
@@ -364,9 +362,15 @@
       const syncTermValues = () => {
         const selectedTerm = document.querySelector('input[name="term"]:checked')?.value || "standard";
         const values = termValueMap[selectedTerm] || termValueMap.standard;
+        const isCustom = selectedTerm === "custom";
+
         termAInput.value = values.a;
         termBInput.value = values.b;
         termCInput.value = values.c;
+        [termAInput, termBInput, termCInput].forEach((input) => {
+          input.disabled = !isCustom;
+        });
+        termAbc.classList.toggle("is-disabled", !isCustom);
       };
 
       const formatNumberWithComma = (value) => {
