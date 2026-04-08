@@ -24,42 +24,42 @@
       }
 
       .container {
-        max-width: 900px;
-        margin: 28px auto;
-        padding: 0 16px 40px;
+        max-width: 680px;
+        margin: 8px auto;
+        padding: 0 6px 12px;
       }
 
       .panel {
         background: var(--card);
         border: 1px solid var(--line);
         border-radius: 18px;
-        padding: 14px;
+        padding: 8px;
         box-shadow: 0 4px 12px rgba(29, 49, 88, 0.06);
       }
 
       h1 {
-        margin: 0 0 16px;
-        font-size: 32px;
+        margin: 0 0 8px;
+        font-size: 24px;
       }
 
       .section {
         border: 1px solid #bfcae6;
         border-radius: 14px;
         overflow: hidden;
-        margin-bottom: 16px;
+        margin-bottom: 8px;
       }
 
       .section-title {
         margin: 0;
         background: #d9deef;
         border-bottom: 1px solid #c1cbe8;
-        padding: 12px 14px;
-        font-size: 20px;
+        padding: 8px 10px;
+        font-size: 16px;
       }
 
       .section-body {
         background: #f2f4fb;
-        padding: 8px;
+        padding: 4px;
       }
 
       .table {
@@ -71,10 +71,10 @@
       }
 
       .table .cell {
-        padding: 6px 8px;
+        padding: 4px 6px;
         border-right: 1px solid var(--line);
         border-bottom: 1px solid var(--line);
-        min-height: 44px;
+        min-height: 36px;
         display: flex;
         align-items: center;
       }
@@ -92,8 +92,8 @@
       .setting-input,
       .setting-select {
         width: 100%;
-        max-width: 220px;
-        min-height: 34px;
+        max-width: 180px;
+        min-height: 30px;
         border: 1px solid #b9c7e8;
         border-radius: 8px;
         padding: 6px 10px;
@@ -104,8 +104,8 @@
 
       .readonly-value {
         width: 100%;
-        max-width: 220px;
-        min-height: 34px;
+        max-width: 180px;
+        min-height: 30px;
         padding: 6px 0;
         background: transparent;
         color: #31486f;
@@ -164,27 +164,27 @@
         border: 1px solid #b6d5cb;
         border-radius: 12px;
         background: var(--mint);
-        padding: 10px;
+        padding: 6px;
       }
 
       .subgrid-title {
-        margin: 0 0 10px;
+        margin: 0 0 6px;
         color: #2f4f45;
         font-weight: 700;
-        font-size: 16px;
+        font-size: 14px;
       }
 
       .radio-row {
         display: flex;
         gap: 14px;
         flex-wrap: wrap;
-        margin-bottom: 12px;
+        margin-bottom: 8px;
       }
 
       .radio-row label {
         background: #edf4f1;
         border: 1px solid #9ec3b6;
-        padding: 8px 12px;
+        padding: 6px 10px;
         border-radius: 999px;
         display: inline-flex;
         gap: 8px;
@@ -199,7 +199,7 @@
       }
 
       .abc div {
-        padding: 9px 10px;
+        padding: 6px 8px;
         border-bottom: 1px solid #a8cfc1;
         border-right: 1px solid #a8cfc1;
         background: #eff7f4;
@@ -224,7 +224,7 @@
         display: flex;
         justify-content: flex-end;
         gap: 10px;
-        margin-top: 18px;
+        margin-top: 8px;
       }
 
       .btn {
@@ -383,6 +383,12 @@
         [termAInput, termBInput, termCInput].forEach((input) => {
           input.disabled = !isCustom;
           input.style.display = isCustom ? "block" : "none";
+        });
+        termLabelEls.forEach((label) => {
+          const forId = label.dataset.termLabelFor;
+          const targetInput = document.getElementById(forId);
+          label.textContent = targetInput?.value || "";
+          label.classList.toggle("show", !isCustom);
         });
         termLabelEls.forEach((label) => {
           const forId = label.dataset.termLabelFor;
