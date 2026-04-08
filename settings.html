@@ -11,9 +11,7 @@
         --line: #cdd5ea;
         --ink: #1d3158;
         --muted: #5c6f94;
-        --blue: #4a66c4;
         --mint: #d8eee8;
-        --mint-deep: #b9dfd2;
       }
 
       * { box-sizing: border-box; }
@@ -72,7 +70,6 @@
         overflow: hidden;
       }
 
-      .table.head > div,
       .table .cell {
         padding: 10px 12px;
         border-right: 1px solid var(--line);
@@ -82,19 +79,11 @@
         align-items: center;
       }
 
-      .table .cell:nth-child(2n),
-      .table.head > div:nth-child(2n) { border-right: none; }
+      .table .cell:nth-child(2n) { border-right: none; }
       .table .cell:last-child,
       .table .cell:nth-last-child(2) { border-bottom: none; }
 
-      .table.head {
-        background: #e8edf9;
-        font-weight: 700;
-      }
-
       .label { font-weight: 700; }
-
-      .yes { color: #1b6b52; font-weight: 700; }
 
       .setting-input,
       .setting-select {
@@ -106,6 +95,18 @@
         background: #fff;
         color: var(--ink);
         font-size: 14px;
+      }
+
+      .readonly-value {
+        width: 100%;
+        min-height: 34px;
+        border: 1px solid #d2d9ed;
+        border-radius: 8px;
+        padding: 6px 10px;
+        background: #edf1fb;
+        color: #31486f;
+        display: flex;
+        align-items: center;
       }
 
       .input-with-unit {
@@ -135,10 +136,11 @@
         padding: 14px;
       }
 
-      .calc-caption {
+      .subgrid-title {
         margin: 0 0 10px;
         color: #2f4f45;
         font-weight: 700;
+        font-size: 16px;
       }
 
       .radio-row {
@@ -177,21 +179,34 @@
       .abc div:nth-child(3n) { border-right: none; }
       .abc div:nth-last-child(-n + 3) { border-bottom: none; }
 
-      .note {
-        margin-top: 14px;
-        padding: 12px;
-        background: #f3f5fd;
-        border: 1px dashed #aebbe0;
+      .actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .btn {
         border-radius: 10px;
-        color: #38507c;
-        line-height: 1.5;
+        min-height: 40px;
+        padding: 0 18px;
+        border: 1px solid #99aad8;
+        background: #f3f6ff;
+        color: #27427f;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .btn.primary {
+        border-color: #4b68c9;
+        background: #4b68c9;
+        color: #fff;
       }
 
       @media (max-width: 900px) {
         .table,
         .abc { grid-template-columns: 1fr; }
         .table .cell,
-        .table.head > div,
         .abc div { border-right: none !important; }
       }
     </style>
@@ -204,14 +219,14 @@
         <article class="section">
           <h2 class="section-title">基本設定</h2>
           <div class="section-body">
-            <div class="table head">
-              <div>項目名</div>
-              <div>設定値</div>
-            </div>
             <div class="table">
-              <div class="cell label">粗利益率</div><div class="cell"><input class="setting-input" type="text" value="5%以上" /></div>
+              <div class="cell label">氏名</div><div class="cell"><div class="readonly-value">メサイア太郎</div></div>
+              <div class="cell label">ショップ名</div><div class="cell"><div class="readonly-value">mesaia japan</div></div>
+              <div class="cell label">セラーID</div><div class="cell"><div class="readonly-value">AS～～</div></div>
+              <div class="cell label">SLC会員番号</div><div class="cell"><div class="readonly-value">AZ001</div></div>
+              <div class="cell label">粗利益率</div><div class="cell"><div class="input-with-unit"><input class="setting-input" type="number" value="5" min="0" /><span class="unit">%</span></div></div>
               <div class="cell label">予測30日販売数</div><div class="cell"><input class="setting-input" type="number" value="1" min="0" /></div>
-              <div class="cell label">関税割合</div><div class="cell"><input class="setting-input" type="text" value="17.80%" /></div>
+              <div class="cell label">関税割合</div><div class="cell"><div class="input-with-unit"><input class="setting-input" type="number" value="17.80" step="0.01" min="0" /><span class="unit">%</span></div></div>
               <div class="cell label">送料係数</div><div class="cell"><input class="setting-input" type="number" value="1.2" step="0.1" min="0" /></div>
               <div class="cell label">Amazonポイントを加味する</div><div class="cell"><label class="toggle"><input type="checkbox" checked />有効</label></div>
               <div class="cell label">Amazonクーポンを加味する</div><div class="cell"><label class="toggle"><input type="checkbox" checked />有効</label></div>
@@ -230,35 +245,37 @@
           <h2 class="section-title">ASINスコア算出設定</h2>
           <div class="section-body">
             <div class="subgrid">
-              <p class="calc-caption">算出期間(※)</p>
+              <p class="subgrid-title">算出期間(※)</p>
               <div class="radio-row">
                 <label><input type="radio" name="term" /> 短期（速度重視）</label>
                 <label><input type="radio" name="term" checked /> 標準</label>
                 <label><input type="radio" name="term" /> 長期（安定重視）</label>
               </div>
-
               <div class="abc">
                 <div class="label">A.データ範囲</div><div><input class="setting-input" type="number" value="90" min="1" /></div><div>日</div>
                 <div class="label">B.時間重み T（直近の減衰）</div><div><input class="setting-input" type="number" value="60" min="1" /></div><div>日</div>
                 <div class="label">C.周期判定 P（分散の効き）</div><div><input class="setting-input" type="number" value="60" min="1" /></div><div>日</div>
+              </div>
+            </div>
+
+            <div class="subgrid">
+              <p class="subgrid-title">その他算出設定</p>
+              <div class="abc">
                 <div class="label">分散の強さ</div><div><input class="setting-input" type="number" value="1.0" step="0.1" min="0" /></div><div></div>
                 <div class="label">回数の効き</div><div><input class="setting-input" type="number" value="3" min="0" /></div><div>回</div>
                 <div class="label">直近の重み</div><div><input class="setting-input" type="number" value="0.5" step="0.1" min="0" /></div><div></div>
                 <div class="label">発売開始～現在までの日数</div><div><input class="setting-input" type="number" value="120" min="0" /></div><div>日</div>
-                <div class="label">乖離率の影響（最大値）</div><div><input class="setting-input" type="text" value="20.00%" /></div><div>±○%</div>
+                <div class="label">乖離率の影響（最大値）</div><div><input class="setting-input" type="number" value="20.00" step="0.01" min="0" /></div><div>%</div>
                 <div class="label">推奨しきい値</div><div><input class="setting-input" type="number" value="0.90" step="0.01" min="0" /></div><div></div>
               </div>
             </div>
-
-            <div class="note">
-              <strong>「ASINスコア算出設定」について</strong><br />
-              以下の通り「短期（速度重視）」「標準」「長期（安定重視）」を選択できます。コアユーザー向けに A/B/C の手動調整も可能です。<br /><br />
-              ・短期（速度重視）：A=60日 / B=30日 / C=30日<br />
-              ・標準：A=90日 / B=60日 / C=60日<br />
-              ・長期（安定重視）：A=180日 / B=90日 / C=90日
-            </div>
           </div>
         </article>
+
+        <div class="actions">
+          <button type="button" class="btn">戻る</button>
+          <button type="button" class="btn primary">更新</button>
+        </div>
       </section>
     </main>
   </body>
