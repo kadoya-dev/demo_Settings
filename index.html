@@ -390,6 +390,7 @@
           label.textContent = targetInput?.value || "";
           label.classList.toggle("show", !isCustom);
         });
+        termAbc.classList.toggle("is-disabled", !isCustom);
       };
 
       const formatNumberWithComma = (value) => {
