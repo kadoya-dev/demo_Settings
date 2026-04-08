@@ -64,17 +64,17 @@
 
       .table {
         display: grid;
-        grid-template-columns: minmax(280px, 1.5fr) minmax(300px, 1fr);
+        grid-template-columns: minmax(220px, 1.15fr) minmax(260px, 1fr);
         border: 1px solid var(--line);
         border-radius: 12px;
         overflow: hidden;
       }
 
       .table .cell {
-        padding: 10px 12px;
+        padding: 8px 10px;
         border-right: 1px solid var(--line);
         border-bottom: 1px solid var(--line);
-        min-height: 50px;
+        min-height: 44px;
         display: flex;
         align-items: center;
       }
@@ -128,7 +128,7 @@
 
       .radio-group-inline {
         display: inline-flex;
-        gap: 14px;
+        gap: 10px;
         flex-wrap: wrap;
       }
 
@@ -261,9 +261,17 @@
               <div class="cell label">リサーチ時にセラーIDを収集する</div><div class="cell"><label class="toggle"><input type="checkbox" checked />有効</label></div>
               <div class="cell label">知財</div><div class="cell"><label class="toggle"><input type="checkbox" checked />有効</label></div>
               <div class="cell label">大型</div><div class="cell"><label class="toggle"><input type="checkbox" checked />有効</label></div>
-              <div class="cell label">T売上目標</div><div class="cell"><div class="input-with-unit"><input class="setting-input" type="number" value="100000" min="0" /><span class="unit">円</span></div></div>
-              <div class="cell label">T利益目標</div><div class="cell"><div class="input-with-unit"><input class="setting-input" type="number" value="100000" min="0" /><span class="unit">円</span></div></div>
-              <div class="cell label">対象外ショップ</div><div class="cell"><input class="setting-input" type="text" value="Yahoo!、楽天" /></div>
+              <div class="cell label">T売上目標</div><div class="cell"><div class="input-with-unit"><input class="setting-input amount-input" type="text" inputmode="numeric" value="100000" /><span class="unit">円</span></div></div>
+              <div class="cell label">T利益目標</div><div class="cell"><div class="input-with-unit"><input class="setting-input amount-input" type="text" inputmode="numeric" value="100000" /><span class="unit">円</span></div></div>
+              <div class="cell label">対象外ショップ</div>
+              <div class="cell">
+                <div class="radio-group-inline">
+                  <label><input type="radio" name="target_shop" value="Amazon" checked />Amazon</label>
+                  <label><input type="radio" name="target_shop" value="Yahoo!" />Yahoo!</label>
+                  <label><input type="radio" name="target_shop" value="楽天" />楽天</label>
+                  <label><input type="radio" name="target_shop" value="ヨドバシ" />ヨドバシ</label>
+                </div>
+              </div>
               <div class="cell label">SLC利用</div>
               <div class="cell">
                 <div class="radio-group-inline">
@@ -272,7 +280,7 @@
                 </div>
               </div>
               <div class="cell label slc-extra-row" hidden>1点あたりの必要経費<span class="tooltip-mark" title="送料や手数料から算出">?</span></div>
-              <div class="cell slc-extra-row" hidden><div class="input-with-unit"><input class="setting-input" type="number" value="500" min="0" /><span class="unit">円</span></div></div>
+              <div class="cell slc-extra-row" hidden><div class="input-with-unit"><input class="setting-input amount-input" type="text" inputmode="numeric" value="500" /><span class="unit">円</span></div></div>
               <div class="cell label slc-extra-row" hidden>サーチャージ率</div>
               <div class="cell slc-extra-row" hidden><div class="input-with-unit"><input class="setting-input" type="number" value="30.00" step="0.01" min="0" /><span class="unit">%</span></div></div>
             </div>
@@ -283,16 +291,17 @@
           <h2 class="section-title">ASINスコア算出設定</h2>
           <div class="section-body">
             <div class="subgrid">
-              <p class="subgrid-title">算出期間(※)</p>
+              <p class="subgrid-title">算出期間</p>
               <div class="radio-row">
-                <label><input type="radio" name="term" /> 短期（速度重視）</label>
-                <label><input type="radio" name="term" checked /> 標準</label>
-                <label><input type="radio" name="term" /> 長期（安定重視）</label>
+                <label><input type="radio" name="term" value="short" /> 短期（速度重視）</label>
+                <label><input type="radio" name="term" value="standard" checked /> 標準</label>
+                <label><input type="radio" name="term" value="long" /> 長期（安定重視）</label>
+                <label><input type="radio" name="term" value="custom" /> カスタマイズ</label>
               </div>
               <div class="abc">
-                <div class="label">A.データ範囲</div><div><input class="setting-input" type="number" value="90" min="1" /></div><div>日</div>
-                <div class="label">B.時間重み T（直近の減衰）</div><div><input class="setting-input" type="number" value="60" min="1" /></div><div>日</div>
-                <div class="label">C.周期判定 P（分散の効き）</div><div><input class="setting-input" type="number" value="60" min="1" /></div><div>日</div>
+                <div class="label">A.データ範囲</div><div><input id="term-a" class="setting-input" type="number" value="90" min="1" /></div><div>日</div>
+                <div class="label">B.時間重み</div><div><input id="term-b" class="setting-input" type="number" value="60" min="1" /></div><div>日</div>
+                <div class="label">C.周期判定</div><div><input id="term-c" class="setting-input" type="number" value="60" min="1" /></div><div>日</div>
               </div>
             </div>
 
@@ -319,6 +328,11 @@
     <script>
       const usageRadios = document.querySelectorAll('input[name="slc_usage"]');
       const slcExtraRows = document.querySelectorAll(".slc-extra-row");
+      const termRadios = document.querySelectorAll('input[name="term"]');
+      const termAInput = document.getElementById("term-a");
+      const termBInput = document.getElementById("term-b");
+      const termCInput = document.getElementById("term-c");
+      const amountInputs = document.querySelectorAll(".amount-input");
 
       const syncSlcRows = () => {
         const selectedUsage = document.querySelector('input[name="slc_usage"]:checked')?.value;
@@ -328,11 +342,44 @@
         });
       };
 
+      const termValueMap = {
+        short: { a: "60", b: "30", c: "30" },
+        standard: { a: "90", b: "60", c: "60" },
+        long: { a: "180", b: "90", c: "90" },
+        custom: { a: "", b: "", c: "" }
+      };
+
+      const syncTermValues = () => {
+        const selectedTerm = document.querySelector('input[name="term"]:checked')?.value || "standard";
+        const values = termValueMap[selectedTerm] || termValueMap.standard;
+        termAInput.value = values.a;
+        termBInput.value = values.b;
+        termCInput.value = values.c;
+      };
+
+      const formatNumberWithComma = (value) => {
+        const numeric = value.replace(/,/g, "").replace(/[^0-9]/g, "");
+        if (!numeric) return "";
+        return Number(numeric).toLocaleString("ja-JP");
+      };
+
+      amountInputs.forEach((input) => {
+        input.addEventListener("input", () => {
+          input.value = formatNumberWithComma(input.value);
+        });
+        input.value = formatNumberWithComma(input.value);
+      });
+
       usageRadios.forEach((radio) => {
         radio.addEventListener("change", syncSlcRows);
       });
 
+      termRadios.forEach((radio) => {
+        radio.addEventListener("change", syncTermValues);
+      });
+
       syncSlcRows();
+      syncTermValues();
     </script>
   </body>
 </html>
