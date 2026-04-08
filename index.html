@@ -65,6 +65,7 @@
       .table {
         display: grid;
         grid-template-columns: 55% 45%;
+        grid-template-columns: 55% 45%;
         border: 1px solid var(--line);
         border-radius: 12px;
         overflow: hidden;
@@ -332,6 +333,8 @@
     <script>
       const usageRadios = document.querySelectorAll('input[name="slc_usage"]');
       const slcExtraRows = document.querySelectorAll(".slc-extra-row");
+      const slcCostInput = document.getElementById("slc-cost");
+      const slcSurchargeInput = document.getElementById("slc-surcharge");
       const slcCostInput = document.getElementById("slc-cost");
       const slcSurchargeInput = document.getElementById("slc-surcharge");
       const termRadios = document.querySelectorAll('input[name="term"]');
