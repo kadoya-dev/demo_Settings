@@ -174,6 +174,13 @@
         font-size: 14px;
       }
 
+      .inner-section-title {
+        margin: 6px 0 6px;
+        font-size: 15px;
+        font-weight: 800;
+        color: #1d3158;
+      }
+
       .radio-row {
         display: flex;
         gap: 14px;
@@ -192,19 +199,20 @@
 
       .abc {
         display: grid;
-        grid-template-columns: 1.8fr 1fr;
+        grid-template-columns: 55% 45%;
         border: 1px solid #a8cfc1;
         border-radius: 10px;
         overflow: hidden;
       }
 
       .abc div {
-        padding: 6px 8px;
+        padding: 4px 6px;
         border-bottom: 1px solid #a8cfc1;
         border-right: 1px solid #a8cfc1;
         background: #eff7f4;
         display: flex;
         align-items: center;
+        min-height: 36px;
       }
 
       .abc div:nth-child(2n) { border-right: none; }
@@ -308,9 +316,7 @@
               <div class="cell label slc-extra-row">サーチャージ率</div>
               <div class="cell slc-extra-row"><div class="input-with-unit"><input id="slc-surcharge" class="setting-input" type="number" value="30.00" step="0.01" min="0" /><span class="unit">%</span></div></div>
             </div>
-            <div class="subgrid">
-              <p class="subgrid-title">ASINスコア算出設定</p>
-            </div>
+            <h3 class="inner-section-title">ASINスコア算出設定</h3>
             <div class="subgrid">
               <p class="subgrid-title">算出期間</p>
               <div class="radio-row">
@@ -367,7 +373,6 @@
         slcExtraRows.forEach((row) => {
           row.classList.toggle("is-disabled", isDisabled);
         });
-        termAbc.classList.toggle("is-disabled", !isCustom);
       };
 
       const termValueMap = {
@@ -428,6 +433,14 @@
         cleanedTexts.forEach(({ node, sanitized }) => {
           node.textContent = sanitized;
         });
+        termAbc.classList.toggle("is-disabled", !isCustom);
+      };
+
+      const termValueMap = {
+        short: { a: "60", b: "30", c: "30" },
+        standard: { a: "90", b: "60", c: "60" },
+        long: { a: "180", b: "90", c: "90" },
+        custom: { a: "", b: "", c: "" }
       };
 
       amountInputs.forEach((input) => {
