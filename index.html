@@ -24,7 +24,7 @@
       }
 
       .container {
-        max-width: 1120px;
+        max-width: 980px;
         margin: 28px auto;
         padding: 0 16px 40px;
       }
@@ -33,7 +33,7 @@
         background: var(--card);
         border: 1px solid var(--line);
         border-radius: 18px;
-        padding: 22px;
+        padding: 18px;
         box-shadow: 0 4px 12px rgba(29, 49, 88, 0.06);
       }
 
@@ -59,7 +59,7 @@
 
       .section-body {
         background: #f2f4fb;
-        padding: 14px;
+        padding: 10px;
       }
 
       .table {
@@ -164,7 +164,7 @@
         border: 1px solid #b6d5cb;
         border-radius: 12px;
         background: var(--mint);
-        padding: 14px;
+        padding: 10px;
       }
 
       .subgrid-title {
@@ -192,7 +192,7 @@
 
       .abc {
         display: grid;
-        grid-template-columns: 1.8fr 1fr 0.8fr;
+        grid-template-columns: 1.8fr 1fr;
         border: 1px solid #a8cfc1;
         border-radius: 10px;
         overflow: hidden;
@@ -207,8 +207,18 @@
         align-items: center;
       }
 
-      .abc div:nth-child(3n) { border-right: none; }
-      .abc div:nth-last-child(-n + 3) { border-bottom: none; }
+      .abc div:nth-child(2n) { border-right: none; }
+      .abc div:nth-last-child(-n + 2) { border-bottom: none; }
+
+      .term-value-label {
+        display: none;
+        min-height: 34px;
+        align-items: center;
+      }
+
+      .term-value-label.show {
+        display: inline-flex;
+      }
 
       .actions {
         display: flex;
@@ -305,21 +315,21 @@
                 <label><input type="radio" name="term" value="custom" /> カスタマイズ</label>
               </div>
               <div id="term-abc" class="abc">
-                <div class="label">A.データ範囲</div><div><input id="term-a" class="setting-input" type="number" value="90" min="1" /></div><div>日</div>
-                <div class="label">B.時間重み</div><div><input id="term-b" class="setting-input" type="number" value="60" min="1" /></div><div>日</div>
-                <div class="label">C.周期判定</div><div><input id="term-c" class="setting-input" type="number" value="60" min="1" /></div><div>日</div>
+                <div class="label">A.データ範囲</div><div><div class="input-with-unit"><input id="term-a" class="setting-input" type="number" value="90" min="1" /><span class="term-value-label" data-term-label-for="term-a"></span><span class="unit">日</span></div></div>
+                <div class="label">B.時間重み</div><div><div class="input-with-unit"><input id="term-b" class="setting-input" type="number" value="60" min="1" /><span class="term-value-label" data-term-label-for="term-b"></span><span class="unit">日</span></div></div>
+                <div class="label">C.周期判定</div><div><div class="input-with-unit"><input id="term-c" class="setting-input" type="number" value="60" min="1" /><span class="term-value-label" data-term-label-for="term-c"></span><span class="unit">日</span></div></div>
               </div>
             </div>
 
             <div class="subgrid">
               <p class="subgrid-title">その他算出設定</p>
               <div class="abc">
-                <div class="label">分散の強さ</div><div><input class="setting-input" type="number" value="1.0" step="0.1" min="0" /></div><div></div>
-                <div class="label">回数の効き</div><div><input class="setting-input" type="number" value="3" min="0" /></div><div>回</div>
-                <div class="label">直近の重み</div><div><input class="setting-input" type="number" value="0.5" step="0.1" min="0" /></div><div></div>
-                <div class="label">発売開始～現在までの日数</div><div><input class="setting-input" type="number" value="120" min="0" /></div><div>日</div>
-                <div class="label">乖離率の影響（最大値）</div><div><input class="setting-input" type="number" value="20.00" step="0.01" min="0" /></div><div>%</div>
-                <div class="label">推奨しきい値</div><div><input class="setting-input" type="number" value="0.90" step="0.01" min="0" /></div><div></div>
+                <div class="label">分散の強さ</div><div><div class="input-with-unit"><input class="setting-input" type="number" value="1.0" step="0.1" min="0" /></div></div>
+                <div class="label">回数の効き</div><div><div class="input-with-unit"><input class="setting-input" type="number" value="3" min="0" /><span class="unit">回</span></div></div>
+                <div class="label">直近の重み</div><div><div class="input-with-unit"><input class="setting-input" type="number" value="0.5" step="0.1" min="0" /></div></div>
+                <div class="label">発売開始～現在までの日数</div><div><div class="input-with-unit"><input class="setting-input" type="number" value="120" min="0" /><span class="unit">日</span></div></div>
+                <div class="label">乖離率の影響（最大値）</div><div><div class="input-with-unit"><input class="setting-input" type="number" value="20.00" step="0.01" min="0" /><span class="unit">%</span></div></div>
+                <div class="label">推奨しきい値</div><div><div class="input-with-unit"><input class="setting-input" type="number" value="0.90" step="0.01" min="0" /></div></div>
               </div>
             </div>
           </div>
@@ -340,7 +350,7 @@
       const termAInput = document.getElementById("term-a");
       const termBInput = document.getElementById("term-b");
       const termCInput = document.getElementById("term-c");
-      const termAbc = document.getElementById("term-abc");
+      const termLabelEls = document.querySelectorAll(".term-value-label");
       const amountInputs = document.querySelectorAll(".amount-input");
 
       const syncSlcRows = () => {
@@ -352,6 +362,7 @@
         slcExtraRows.forEach((row) => {
           row.classList.toggle("is-disabled", isDisabled);
         });
+        termAbc.classList.toggle("is-disabled", !isCustom);
       };
 
       const termValueMap = {
@@ -369,10 +380,17 @@
         termAInput.value = values.a;
         termBInput.value = values.b;
         termCInput.value = values.c;
+
         [termAInput, termBInput, termCInput].forEach((input) => {
           input.disabled = !isCustom;
+          input.style.display = isCustom ? "block" : "none";
         });
-        termAbc.classList.toggle("is-disabled", !isCustom);
+        termLabelEls.forEach((label) => {
+          const forId = label.dataset.termLabelFor;
+          const targetInput = document.getElementById(forId);
+          label.textContent = targetInput?.value || "";
+          label.classList.toggle("show", !isCustom);
+        });
       };
 
       const formatNumberWithComma = (value) => {
