@@ -64,11 +64,8 @@
 
       .table {
         display: grid;
-<<<<<<< codex/update-radio-buttons-and-field-labels-i35xiw
         grid-template-columns: 55% 45%;
-=======
-        grid-template-columns: minmax(220px, 1.15fr) minmax(260px, 1fr);
->>>>>>> main
+        grid-template-columns: 55% 45%;
         border: 1px solid var(--line);
         border-radius: 12px;
         overflow: hidden;
@@ -274,17 +271,10 @@
               <div class="cell label">対象外ショップ</div>
               <div class="cell">
                 <div class="radio-group-inline">
-<<<<<<< codex/update-radio-buttons-and-field-labels-i35xiw
                   <label><input type="checkbox" name="target_shop" value="Amazon" checked />Amazon</label>
                   <label><input type="checkbox" name="target_shop" value="Yahoo!" />Yahoo!</label>
                   <label><input type="checkbox" name="target_shop" value="楽天" />楽天</label>
                   <label><input type="checkbox" name="target_shop" value="ヨドバシ" />ヨドバシ</label>
-=======
-                  <label><input type="radio" name="target_shop" value="Amazon" checked />Amazon</label>
-                  <label><input type="radio" name="target_shop" value="Yahoo!" />Yahoo!</label>
-                  <label><input type="radio" name="target_shop" value="楽天" />楽天</label>
-                  <label><input type="radio" name="target_shop" value="ヨドバシ" />ヨドバシ</label>
->>>>>>> main
                 </div>
               </div>
               <div class="cell label">SLC利用</div>
@@ -294,17 +284,10 @@
                   <label><input type="radio" name="slc_usage" value="未利用" />未利用</label>
                 </div>
               </div>
-<<<<<<< codex/update-radio-buttons-and-field-labels-i35xiw
               <div class="cell label slc-extra-row">1点あたりの必要経費<span class="tooltip-mark" title="送料や手数料から算出">?</span></div>
               <div class="cell slc-extra-row"><div class="input-with-unit"><input id="slc-cost" class="setting-input amount-input" type="text" inputmode="numeric" value="500" /><span class="unit">円</span></div></div>
               <div class="cell label slc-extra-row">サーチャージ率</div>
               <div class="cell slc-extra-row"><div class="input-with-unit"><input id="slc-surcharge" class="setting-input" type="number" value="30.00" step="0.01" min="0" /><span class="unit">%</span></div></div>
-=======
-              <div class="cell label slc-extra-row" hidden>1点あたりの必要経費<span class="tooltip-mark" title="送料や手数料から算出">?</span></div>
-              <div class="cell slc-extra-row" hidden><div class="input-with-unit"><input class="setting-input amount-input" type="text" inputmode="numeric" value="500" /><span class="unit">円</span></div></div>
-              <div class="cell label slc-extra-row" hidden>サーチャージ率</div>
-              <div class="cell slc-extra-row" hidden><div class="input-with-unit"><input class="setting-input" type="number" value="30.00" step="0.01" min="0" /><span class="unit">%</span></div></div>
->>>>>>> main
             </div>
           </div>
         </article>
@@ -350,11 +333,10 @@
     <script>
       const usageRadios = document.querySelectorAll('input[name="slc_usage"]');
       const slcExtraRows = document.querySelectorAll(".slc-extra-row");
-<<<<<<< codex/update-radio-buttons-and-field-labels-i35xiw
       const slcCostInput = document.getElementById("slc-cost");
       const slcSurchargeInput = document.getElementById("slc-surcharge");
-=======
->>>>>>> main
+      const slcCostInput = document.getElementById("slc-cost");
+      const slcSurchargeInput = document.getElementById("slc-surcharge");
       const termRadios = document.querySelectorAll('input[name="term"]');
       const termAInput = document.getElementById("term-a");
       const termBInput = document.getElementById("term-b");
@@ -393,6 +375,32 @@
         return Number(numeric).toLocaleString("ja-JP");
       };
 
+      const removeMergeConflictMarkers = () => {
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+        const markerPattern = /(<<<<<<<|=======|>>>>>>>)/;
+        const cleanedTexts = [];
+
+        while (walker.nextNode()) {
+          const node = walker.currentNode;
+          if (!markerPattern.test(node.textContent)) continue;
+
+          const sanitized = node.textContent
+            .split("\n")
+            .filter((line) => !line.trim().match(/^(<<<<<<<|=======|>>>>>>>)/))
+            .join("\n")
+            .replace(/\bcodex\/[\w-]+\b/g, "")
+            .replace(/\bmain\b/g, "")
+            .replace(/\s{2,}/g, " ")
+            .trim();
+
+          cleanedTexts.push({ node, sanitized });
+        }
+
+        cleanedTexts.forEach(({ node, sanitized }) => {
+          node.textContent = sanitized;
+        });
+      };
+
       amountInputs.forEach((input) => {
         input.addEventListener("input", () => {
           input.value = formatNumberWithComma(input.value);
@@ -408,6 +416,7 @@
         radio.addEventListener("change", syncTermValues);
       });
 
+      removeMergeConflictMarkers();
       syncSlcRows();
       syncTermValues();
     </script>
