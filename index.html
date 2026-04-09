@@ -179,9 +179,10 @@
         display: none;
         position: absolute;
         left: 0;
-        top: calc(100% + 6px);
+        top: 100%;
         width: 280px;
         max-width: min(90vw, 320px);
+        margin-top: 2px;
         padding: 8px 10px;
         border-radius: 8px;
         background: #1d3158;
@@ -369,7 +370,7 @@
 仕入れた商品の検品・梱包・発送はSLCに任せて、リサーチに専念できます。
 さらに当ツールをご利用中であれば送料割引が適用されます✨
 <a href="https://worldshift-inc.jp/slc/" target="_blank" rel="noopener noreferrer">https://worldshift-inc.jp/slc/</a>
-ご希望される場合はお気軽にチャットワークにてお申し付けください。</span>
+ご希望される場合はお気軽にお問合せください。</span>
                 </span>
               </div>
               <div class="cell">
@@ -537,19 +538,28 @@
         radio.addEventListener("change", syncTermValues);
       });
 
+      const closeTooltipWithDelay = (host) => {
+        clearTimeout(host.closeTimerId);
+        host.closeTimerId = setTimeout(() => {
+          host.classList.remove("is-open");
+        }, 150);
+      };
+
       tooltipHosts.forEach((host) => {
         host.addEventListener("mouseenter", () => {
+          clearTimeout(host.closeTimerId);
           host.classList.add("is-open");
         });
         host.addEventListener("mouseleave", () => {
-          host.classList.remove("is-open");
+          closeTooltipWithDelay(host);
         });
         host.addEventListener("focusin", () => {
+          clearTimeout(host.closeTimerId);
           host.classList.add("is-open");
         });
         host.addEventListener("focusout", (event) => {
           if (!host.contains(event.relatedTarget)) {
-            host.classList.remove("is-open");
+            closeTooltipWithDelay(host);
           }
         });
       });
