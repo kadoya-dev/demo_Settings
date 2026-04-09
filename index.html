@@ -440,7 +440,7 @@
 
       const syncSlcRows = () => {
         const selectedUsage = document.querySelector('input[name="slc_usage"]:checked')?.value;
-        const isDisabled = selectedUsage === "利用中";
+        const isDisabled = selectedUsage === "併用中";
         [slcCostInput, slcSurchargeInput].forEach((input) => {
           input.disabled = isDisabled;
         });
