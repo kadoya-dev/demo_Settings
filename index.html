@@ -208,14 +208,14 @@
       .abc div {
         padding: 4px 6px;
         border-bottom: 1px solid #a8cfc1;
-        border-right: 1px solid #a8cfc1;
+        border-right: none;
         background: #eff7f4;
         display: flex;
         align-items: center;
         min-height: 36px;
       }
 
-      .abc div:nth-child(2n) { border-right: none; }
+      .abc div:nth-child(2n + 1) { border-right: 1px solid #a8cfc1; }
       .abc div:nth-last-child(-n + 2) { border-bottom: none; }
 
       .term-value-label {
@@ -316,9 +316,8 @@
               <div class="cell label slc-extra-row">サーチャージ率</div>
               <div class="cell slc-extra-row"><div class="input-with-unit"><input id="slc-surcharge" class="setting-input" type="number" value="30.00" step="0.01" min="0" /><span class="unit">%</span></div></div>
             </div>
-            <h3 class="inner-section-title">ASINスコア算出設定</h3>
             <div class="subgrid">
-              <p class="subgrid-title">算出期間</p>
+              <p class="subgrid-title">ASINスコア算出期間</p>
               <div class="radio-row">
                 <label><input type="radio" name="term" value="short" /> 短期（速度重視）</label>
                 <label><input type="radio" name="term" value="standard" checked /> 標準</label>
@@ -333,7 +332,7 @@
             </div>
 
             <div class="subgrid">
-              <p class="subgrid-title">その他算出設定</p>
+              <p class="subgrid-title">ASINスコア算出設定</p>
               <div class="abc">
                 <div class="label">分散の強さ</div><div><div class="input-with-unit"><input class="setting-input" type="number" value="1.0" step="0.1" min="0" /></div></div>
                 <div class="label">回数の効き</div><div><div class="input-with-unit"><input class="setting-input" type="number" value="3" min="0" /><span class="unit">回</span></div></div>
