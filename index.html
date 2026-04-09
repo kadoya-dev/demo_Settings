@@ -228,6 +228,13 @@
         display: inline-flex;
       }
 
+      .term-help-image {
+        display: block;
+        width: 100%;
+        margin-top: 8px;
+        border-radius: 8px;
+      }
+
       .actions {
         display: flex;
         justify-content: flex-end;
@@ -329,6 +336,7 @@
                 <div class="label">B.時間重み</div><div><div class="input-with-unit"><input id="term-b" class="setting-input term-edit-input" type="number" value="60" min="1" style="display: none;" disabled /><span class="term-value-label show" data-term-label-for="term-b">60</span><span class="unit">日</span></div></div>
                 <div class="label">C.周期判定</div><div><div class="input-with-unit"><input id="term-c" class="setting-input term-edit-input" type="number" value="60" min="1" style="display: none;" disabled /><span class="term-value-label show" data-term-label-for="term-c">60</span><span class="unit">日</span></div></div>
               </div>
+              <img class="term-help-image" src="長期～短期の説明.png" alt="長期から短期までの算出期間説明" />
             </div>
 
             <div class="subgrid">
@@ -380,10 +388,19 @@
         long: { a: "180", b: "90", c: "90" },
         custom: { a: "", b: "", c: "" }
       };
+      const customTermValues = { ...termValueMap.custom };
+
+      const saveCustomTermValues = () => {
+        customTermValues.a = termAInput.value;
+        customTermValues.b = termBInput.value;
+        customTermValues.c = termCInput.value;
+      };
 
       const syncTermValues = () => {
         const selectedTerm = document.querySelector('input[name="term"]:checked')?.value || "standard";
-        const values = termValueMap[selectedTerm] || termValueMap.standard;
+        const values = selectedTerm === "custom"
+          ? customTermValues
+          : (termValueMap[selectedTerm] || termValueMap.standard);
         const isCustom = selectedTerm === "custom";
         const termValuesById = {
           "term-a": values.a,
@@ -451,6 +468,10 @@
 
       termRadios.forEach((radio) => {
         radio.addEventListener("change", syncTermValues);
+      });
+
+      [termAInput, termBInput, termCInput].forEach((input) => {
+        input.addEventListener("input", saveCustomTermValues);
       });
 
       removeMergeConflictMarkers();
