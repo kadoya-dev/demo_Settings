@@ -159,6 +159,35 @@
         cursor: help;
       }
 
+      .tooltip-host {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .tooltip-bubble {
+        display: none;
+        position: absolute;
+        left: 0;
+        top: calc(100% + 6px);
+        width: 280px;
+        max-width: min(90vw, 320px);
+        padding: 8px 10px;
+        border-radius: 8px;
+        background: #1d3158;
+        color: #fff;
+        font-size: 12px;
+        line-height: 1.5;
+        white-space: pre-line;
+        z-index: 20;
+        box-shadow: 0 8px 20px rgba(17, 31, 58, 0.25);
+      }
+
+      .tooltip-host:hover .tooltip-bubble,
+      .tooltip-host:focus-within .tooltip-bubble {
+        display: block;
+      }
+
       .subgrid {
         margin-top: 14px;
         border: 1px solid #b6d5cb;
@@ -311,14 +340,30 @@
                   <label><input type="checkbox" name="target_shop" value="ヨドバシ" />ヨドバシ</label>
                 </div>
               </div>
-              <div class="cell label">SLC利用</div>
+              <div class="cell label">
+                <span class="tooltip-host">
+                  SLCサービス利用
+                  <span class="tooltip-mark" tabindex="0">?</span>
+                  <span class="tooltip-bubble">SLCサービスとは…
+アメリカAmazon輸出をまるっと代行するサービスです
+仕入れた商品の検品・梱包・発送はSLCに任せて、リサーチに専念できます
+https://worldshift-inc.jp/slc/
+ご希望される場合はお気軽にチャットワークにてお申し付けください。</span>
+                </span>
+              </div>
               <div class="cell">
                 <div class="radio-group-inline">
-                  <label><input type="radio" name="slc_usage" value="利用中" checked />利用中</label>
-                  <label><input type="radio" name="slc_usage" value="未利用" />未利用</label>
+                  <label><input type="radio" name="slc_usage" value="利用中" checked />利用中　月額¥17,236</label>
+                  <label><input type="radio" name="slc_usage" value="未利用" />未利用　月額¥23,980</label>
                 </div>
               </div>
-              <div class="cell label slc-extra-row" title="送料や手数料から算出">1点あたりの必要経費<span class="tooltip-mark" title="送料や手数料から算出">?</span></div>
+              <div class="cell label slc-extra-row">
+                <span class="tooltip-host">
+                  1点あたりの必要経費
+                  <span class="tooltip-mark" tabindex="0">?</span>
+                  <span class="tooltip-bubble">送料や手数料から算出</span>
+                </span>
+              </div>
               <div class="cell slc-extra-row"><div class="input-with-unit"><input id="slc-cost" class="setting-input amount-input" type="text" inputmode="numeric" value="500" /><span class="unit">円</span></div></div>
               <div class="cell label slc-extra-row">サーチャージ率</div>
               <div class="cell slc-extra-row"><div class="input-with-unit"><input id="slc-surcharge" class="setting-input" type="number" value="30.00" step="0.01" min="0" /><span class="unit">%</span></div></div>
