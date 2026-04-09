@@ -199,8 +199,7 @@
         background: #1d3158;
       }
 
-      .tooltip-host:hover .tooltip-bubble,
-      .tooltip-host:focus-within .tooltip-bubble {
+      .tooltip-host.is-open .tooltip-bubble {
         display: block;
       }
 
@@ -437,6 +436,7 @@
       const termCInput = document.getElementById("term-c");
       const termLabelEls = document.querySelectorAll(".term-value-label");
       const amountInputs = document.querySelectorAll(".amount-input");
+      const tooltipHosts = document.querySelectorAll(".tooltip-host");
 
       const syncSlcRows = () => {
         const selectedUsage = document.querySelector('input[name="slc_usage"]:checked')?.value;
@@ -535,6 +535,30 @@
 
       termRadios.forEach((radio) => {
         radio.addEventListener("change", syncTermValues);
+      });
+
+      tooltipHosts.forEach((host) => {
+        host.addEventListener("mouseenter", () => {
+          host.classList.add("is-open");
+        });
+        host.addEventListener("mouseleave", () => {
+          host.classList.remove("is-open");
+        });
+        host.addEventListener("focusin", () => {
+          host.classList.add("is-open");
+        });
+        host.addEventListener("focusout", (event) => {
+          if (!host.contains(event.relatedTarget)) {
+            host.classList.remove("is-open");
+          }
+        });
+      });
+
+      document.addEventListener("click", (event) => {
+        if (event.target.closest(".tooltip-host")) return;
+        tooltipHosts.forEach((host) => {
+          host.classList.remove("is-open");
+        });
       });
 
       [termAInput, termBInput, termCInput].forEach((input) => {
