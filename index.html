@@ -67,7 +67,7 @@
         grid-template-columns: 55% 45%;
         border: 1px solid var(--line);
         border-radius: 12px;
-        overflow: hidden;
+        overflow: visible;
       }
 
       .table .cell {
@@ -85,8 +85,14 @@
 
       .label { font-weight: 700; }
 
-      .is-disabled {
-        opacity: 0.5;
+      .is-disabled .setting-input,
+      .is-disabled .unit,
+      .is-disabled .tooltip-host {
+        color: #7f8faa;
+      }
+
+      .is-disabled .setting-input {
+        background: #f5f7fc;
       }
 
       .setting-input,
@@ -179,8 +185,14 @@
         font-size: 12px;
         line-height: 1.5;
         white-space: pre-line;
-        z-index: 20;
+        word-break: break-word;
+        z-index: 2000;
         box-shadow: 0 8px 20px rgba(17, 31, 58, 0.25);
+      }
+
+      .is-disabled .tooltip-bubble {
+        color: #fff;
+        background: #1d3158;
       }
 
       .tooltip-host:hover .tooltip-bubble,
