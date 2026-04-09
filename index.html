@@ -67,7 +67,7 @@
         grid-template-columns: 55% 45%;
         border: 1px solid var(--line);
         border-radius: 12px;
-        overflow: hidden;
+        overflow: visible;
       }
 
       .table .cell {
@@ -85,8 +85,18 @@
 
       .label { font-weight: 700; }
 
-      .is-disabled {
-        opacity: 0.5;
+      .is-disabled .setting-input,
+      .is-disabled .unit,
+      .is-disabled .tooltip-host {
+        color: #7f8faa;
+      }
+
+      .is-disabled.label {
+        color: #7f8faa;
+      }
+
+      .is-disabled .setting-input {
+        background: #f5f7fc;
       }
 
       .setting-input,
@@ -159,6 +169,46 @@
         cursor: help;
       }
 
+      .tooltip-host {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .tooltip-bubble {
+        display: none;
+        position: absolute;
+        left: 0;
+        top: 100%;
+        width: 280px;
+        max-width: min(90vw, 320px);
+        margin-top: 2px;
+        padding: 8px 10px;
+        border-radius: 8px;
+        background: #1d3158;
+        color: #fff;
+        font-size: 12px;
+        line-height: 1.5;
+        white-space: pre-line;
+        word-break: break-word;
+        z-index: 2000;
+        box-shadow: 0 8px 20px rgba(17, 31, 58, 0.25);
+      }
+
+      .is-disabled .tooltip-bubble {
+        color: #fff;
+        background: #1d3158;
+      }
+
+      .tooltip-host.is-open .tooltip-bubble {
+        display: block;
+      }
+
+      .tooltip-bubble a {
+        color: #9fd4ff;
+        text-decoration: underline;
+      }
+
       .subgrid {
         margin-top: 14px;
         border: 1px solid #b6d5cb;
@@ -208,14 +258,14 @@
       .abc div {
         padding: 4px 6px;
         border-bottom: 1px solid #a8cfc1;
-        border-right: 1px solid #a8cfc1;
+        border-right: none;
         background: #eff7f4;
         display: flex;
         align-items: center;
         min-height: 36px;
       }
 
-      .abc div:nth-child(2n) { border-right: none; }
+      .abc div:nth-child(2n + 1) { border-right: 1px solid #a8cfc1; }
       .abc div:nth-last-child(-n + 2) { border-bottom: none; }
 
       .term-value-label {
@@ -226,6 +276,13 @@
 
       .term-value-label.show {
         display: inline-flex;
+      }
+
+      .term-help-image {
+        display: block;
+        width: 100%;
+        margin-top: 8px;
+        border-radius: 8px;
       }
 
       .actions {
@@ -304,21 +361,37 @@
                   <label><input type="checkbox" name="target_shop" value="ヨドバシ" />ヨドバシ</label>
                 </div>
               </div>
-              <div class="cell label">SLC利用</div>
+              <div class="cell label">
+                <span class="tooltip-host">
+                  SLCサービス利用
+                  <span class="tooltip-mark" tabindex="0">?</span>
+                  <span class="tooltip-bubble">SLCサービスとは…
+アメリカAmazon輸出をまるっと代行するサービスです！
+仕入れた商品の検品・梱包・発送はSLCに任せて、リサーチに専念できます。
+さらに当ツールをご利用中であれば送料割引が適用されます✨
+<a href="https://worldshift-inc.jp/slc/" target="_blank" rel="noopener noreferrer">https://worldshift-inc.jp/slc/</a>
+ご希望される場合はお気軽にお問合せください。</span>
+                </span>
+              </div>
               <div class="cell">
                 <div class="radio-group-inline">
-                  <label><input type="radio" name="slc_usage" value="利用中" checked />利用中</label>
-                  <label><input type="radio" name="slc_usage" value="未利用" />未利用</label>
+                  <label><input type="radio" name="slc_usage" value="利用中" checked />利用中　月額¥17,236</label>
+                  <label><input type="radio" name="slc_usage" value="未利用" />未利用　月額¥23,980</label>
                 </div>
               </div>
-              <div class="cell label slc-extra-row" title="送料や手数料から算出">1点あたりの必要経費<span class="tooltip-mark" title="送料や手数料から算出">?</span></div>
+              <div class="cell label slc-extra-row">
+                <span class="tooltip-host">
+                  1点あたりの必要経費
+                  <span class="tooltip-mark" tabindex="0">?</span>
+                  <span class="tooltip-bubble">送料や手数料から算出</span>
+                </span>
+              </div>
               <div class="cell slc-extra-row"><div class="input-with-unit"><input id="slc-cost" class="setting-input amount-input" type="text" inputmode="numeric" value="500" /><span class="unit">円</span></div></div>
               <div class="cell label slc-extra-row">サーチャージ率</div>
               <div class="cell slc-extra-row"><div class="input-with-unit"><input id="slc-surcharge" class="setting-input" type="number" value="30.00" step="0.01" min="0" /><span class="unit">%</span></div></div>
             </div>
-            <h3 class="inner-section-title">ASINスコア算出設定</h3>
             <div class="subgrid">
-              <p class="subgrid-title">算出期間</p>
+              <p class="subgrid-title">ASINスコア算出期間</p>
               <div class="radio-row">
                 <label><input type="radio" name="term" value="short" /> 短期（速度重視）</label>
                 <label><input type="radio" name="term" value="standard" checked /> 標準</label>
@@ -330,10 +403,11 @@
                 <div class="label">B.時間重み</div><div><div class="input-with-unit"><input id="term-b" class="setting-input term-edit-input" type="number" value="60" min="1" style="display: none;" disabled /><span class="term-value-label show" data-term-label-for="term-b">60</span><span class="unit">日</span></div></div>
                 <div class="label">C.周期判定</div><div><div class="input-with-unit"><input id="term-c" class="setting-input term-edit-input" type="number" value="60" min="1" style="display: none;" disabled /><span class="term-value-label show" data-term-label-for="term-c">60</span><span class="unit">日</span></div></div>
               </div>
+              <img class="term-help-image" src="長期～短期の説明.png" alt="長期から短期までの算出期間説明" />
             </div>
 
             <div class="subgrid">
-              <p class="subgrid-title">その他算出設定</p>
+              <p class="subgrid-title">ASINスコア算出設定</p>
               <div class="abc">
                 <div class="label">分散の強さ</div><div><div class="input-with-unit"><input class="setting-input" type="number" value="1.0" step="0.1" min="0" /></div></div>
                 <div class="label">回数の効き</div><div><div class="input-with-unit"><input class="setting-input" type="number" value="3" min="0" /><span class="unit">回</span></div></div>
@@ -363,6 +437,7 @@
       const termCInput = document.getElementById("term-c");
       const termLabelEls = document.querySelectorAll(".term-value-label");
       const amountInputs = document.querySelectorAll(".amount-input");
+      const tooltipHosts = document.querySelectorAll(".tooltip-host");
 
       const syncSlcRows = () => {
         const selectedUsage = document.querySelector('input[name="slc_usage"]:checked')?.value;
@@ -381,10 +456,19 @@
         long: { a: "180", b: "90", c: "90" },
         custom: { a: "", b: "", c: "" }
       };
+      const customTermValues = { ...termValueMap.custom };
+
+      const saveCustomTermValues = () => {
+        customTermValues.a = termAInput.value;
+        customTermValues.b = termBInput.value;
+        customTermValues.c = termCInput.value;
+      };
 
       const syncTermValues = () => {
         const selectedTerm = document.querySelector('input[name="term"]:checked')?.value || "standard";
-        const values = termValueMap[selectedTerm] || termValueMap.standard;
+        const values = selectedTerm === "custom"
+          ? customTermValues
+          : (termValueMap[selectedTerm] || termValueMap.standard);
         const isCustom = selectedTerm === "custom";
         const termValuesById = {
           "term-a": values.a,
@@ -452,6 +536,43 @@
 
       termRadios.forEach((radio) => {
         radio.addEventListener("change", syncTermValues);
+      });
+
+      const closeTooltipWithDelay = (host) => {
+        clearTimeout(host.closeTimerId);
+        host.closeTimerId = setTimeout(() => {
+          host.classList.remove("is-open");
+        }, 150);
+      };
+
+      tooltipHosts.forEach((host) => {
+        host.addEventListener("mouseenter", () => {
+          clearTimeout(host.closeTimerId);
+          host.classList.add("is-open");
+        });
+        host.addEventListener("mouseleave", () => {
+          closeTooltipWithDelay(host);
+        });
+        host.addEventListener("focusin", () => {
+          clearTimeout(host.closeTimerId);
+          host.classList.add("is-open");
+        });
+        host.addEventListener("focusout", (event) => {
+          if (!host.contains(event.relatedTarget)) {
+            closeTooltipWithDelay(host);
+          }
+        });
+      });
+
+      document.addEventListener("click", (event) => {
+        if (event.target.closest(".tooltip-host")) return;
+        tooltipHosts.forEach((host) => {
+          host.classList.remove("is-open");
+        });
+      });
+
+      [termAInput, termBInput, termCInput].forEach((input) => {
+        input.addEventListener("input", saveCustomTermValues);
       });
 
       removeMergeConflictMarkers();
