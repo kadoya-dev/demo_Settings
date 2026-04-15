@@ -341,18 +341,92 @@
           <h2 class="section-title">リサーチ設定</h2>
           <div class="section-body">
             <div class="table">
-              <div class="cell label">粗利益率</div><div class="cell"><div class="input-with-unit"><input class="setting-input" type="number" value="5" min="0" /><span class="unit">%</span></div></div>
-              <div class="cell label">予測30日販売数</div><div class="cell"><input class="setting-input" type="number" value="1" min="0" /></div>
-              <div class="cell label">関税割合</div><div class="cell"><div class="input-with-unit"><input class="setting-input" type="number" value="17.80" step="0.01" min="0" /><span class="unit">%</span></div></div>
-              <div class="cell label">送料係数</div><div class="cell"><input class="setting-input" type="number" value="1.2" step="0.1" min="0" /></div>
-              <div class="cell label">Amazonポイントを加味する</div><div class="cell"><label class="toggle"><input type="checkbox" checked />有効</label></div>
-              <div class="cell label">Amazonクーポンを加味する</div><div class="cell"><label class="toggle"><input type="checkbox" checked />有効</label></div>
-              <div class="cell label">リサーチ時にセラーIDを収集する</div><div class="cell"><label class="toggle"><input type="checkbox" checked />有効</label></div>
-              <div class="cell label">知財</div><div class="cell"><label class="toggle"><input type="checkbox" checked />有効</label></div>
-              <div class="cell label">大型</div><div class="cell"><label class="toggle"><input type="checkbox" checked />有効</label></div>
-              <div class="cell label">T売上目標</div><div class="cell"><div class="input-with-unit"><input class="setting-input amount-input" type="text" inputmode="numeric" value="100000" /><span class="unit">円</span></div></div>
-              <div class="cell label">T利益目標</div><div class="cell"><div class="input-with-unit"><input class="setting-input amount-input" type="text" inputmode="numeric" value="100000" /><span class="unit">円</span></div></div>
-              <div class="cell label">対象外ショップ</div>
+              <div class="cell label">
+                <span class="tooltip-host">
+                  T売上目標
+                  <span class="tooltip-mark" tabindex="0">?</span>
+                  <span class="tooltip-bubble">ターゲット売上目標。設定した金額と現時点の売上を比較することができます。</span>
+                </span>
+              </div><div class="cell"><div class="input-with-unit"><input class="setting-input amount-input" type="text" inputmode="numeric" value="100000" /><span class="unit">円</span></div></div>
+              <div class="cell label">
+                <span class="tooltip-host">
+                  T利益目標
+                  <span class="tooltip-mark" tabindex="0">?</span>
+                  <span class="tooltip-bubble">ターゲット利益目標。設定した金額と現時点の利益を比較することができます。</span>
+                </span>
+              </div><div class="cell"><div class="input-with-unit"><input class="setting-input amount-input" type="text" inputmode="numeric" value="100000" /><span class="unit">円</span></div></div>
+              <div class="cell label">
+                <span class="tooltip-host">
+                  粗利益率（旧：目標利益率）
+                  <span class="tooltip-mark" tabindex="0">?</span>
+                  <span class="tooltip-bubble">設定した粗利益率を下回る場合、ASINリサーチ画面（セラーモード）に表示されません</span>
+                </span>
+              </div><div class="cell"><div class="input-with-unit"><input class="setting-input" type="number" value="5" min="0" /><span class="unit">％以上を表示</span></div></div>
+              <div class="cell label">
+                <span class="tooltip-host">
+                  予測30日販売数
+                  <span class="tooltip-mark" tabindex="0">?</span>
+                  <span class="tooltip-bubble">設定した予測30日販売数を下回る場合、ASINリサーチ画面（セラーモード）に表示されません</span>
+                </span>
+              </div><div class="cell"><div class="input-with-unit"><input class="setting-input" type="number" value="1" min="0" /><span class="unit">個以上を表示</span></div></div>
+              <div class="cell label">
+                <span class="tooltip-host">
+                  知財
+                  <span class="tooltip-mark" tabindex="0">?</span>
+                  <span class="tooltip-bubble">知財に該当するASINの場合、リサーチ画面（セラーモード）への表示/非表示を設定します</span>
+                </span>
+              </div><div class="cell"><label class="toggle"><input type="checkbox" checked data-on-label="表示" data-off-label="非表示" /><span class="toggle-status">表示</span></label></div>
+              <div class="cell label">
+                <span class="tooltip-host">
+                  大型
+                  <span class="tooltip-mark" tabindex="0">?</span>
+                  <span class="tooltip-bubble">大型に該当するASINの場合、リサーチ画面（セラーモード）への表示/非表示を設定します</span>
+                </span>
+              </div><div class="cell"><label class="toggle"><input type="checkbox" checked data-on-label="表示" data-off-label="非表示" /><span class="toggle-status">表示</span></label></div>
+              <div class="cell label">
+                <span class="tooltip-host">
+                  関税割合
+                  <span class="tooltip-mark" tabindex="0">?</span>
+                  <span class="tooltip-bubble">毎月、直近関税率の平均を算出して設定されてください。</span>
+                </span>
+              </div><div class="cell"><div class="input-with-unit"><input class="setting-input" type="number" value="17.80" step="0.01" min="0" /><span class="unit">%</span></div></div>
+              <div class="cell label">
+                <span class="tooltip-host">
+                  送料係数
+                  <span class="tooltip-mark" tabindex="0">?</span>
+                  <span class="tooltip-bubble">送料係数が1.0(想定通り)に近づくように設定されてください。
+※送料係数の考え方はこちらを参照ください。</span>
+                </span>
+              </div><div class="cell"><input class="setting-input" type="number" value="1.2" step="0.1" min="0" /></div>
+              <div class="cell label">
+                <span class="tooltip-host">
+                  リサーチ時にセラーを収集する
+                  <span class="tooltip-mark" tabindex="0">?</span>
+                  <span class="tooltip-bubble">ASINをリサーチした際、ASINに紐づくセラーを収集してセラー画面に表示します</span>
+                </span>
+              </div><div class="cell"><label class="toggle"><input type="checkbox" checked /><span class="toggle-status">有効</span></label></div>
+              <div class="cell label">
+                <span class="tooltip-host">
+                  Amazonポイントを加味する
+                  <span class="tooltip-mark" tabindex="0">?</span>
+                  <span class="tooltip-bubble">ポイントが発生する場合のみ、それを差し引いて仕入れ値を計算します</span>
+                </span>
+              </div><div class="cell"><label class="toggle"><input type="checkbox" checked /><span class="toggle-status">有効</span></label></div>
+              <div class="cell label">
+                <span class="tooltip-host">
+                  Amazonクーポンを加味する
+                  <span class="tooltip-mark" tabindex="0">?</span>
+                  <span class="tooltip-bubble">アマゾンが直接販売している商品で
+クーポンが発行されていればその分を販売価格から差し引いて、仕入れ値を計算します</span>
+                </span>
+              </div><div class="cell"><label class="toggle"><input type="checkbox" checked /><span class="toggle-status">有効</span></label></div>
+              <div class="cell label">
+                <span class="tooltip-host">
+                  対象外ショップ
+                  <span class="tooltip-mark" tabindex="0">?</span>
+                  <span class="tooltip-bubble">国内最安値を表示する際に除外するショップを設定します</span>
+                </span>
+              </div>
               <div class="cell">
                 <div class="radio-group-inline">
                   <label><input type="checkbox" name="target_shop" value="Amazon" checked />Amazon</label>
@@ -387,8 +461,6 @@
                 </span>
               </div>
               <div class="cell slc-extra-row"><div class="input-with-unit"><input id="slc-cost" class="setting-input amount-input" type="text" inputmode="numeric" value="500" /><span class="unit">円</span></div></div>
-              <div class="cell label slc-extra-row">サーチャージ率</div>
-              <div class="cell slc-extra-row"><div class="input-with-unit"><input id="slc-surcharge" class="setting-input" type="number" value="30.00" step="0.01" min="0" /><span class="unit">%</span></div></div>
             </div>
             <div class="subgrid">
               <p class="subgrid-title">ASINスコア算出期間</p>
@@ -405,18 +477,6 @@
               </div>
               <img class="term-help-image" src="長期～短期の説明.png" alt="長期から短期までの算出期間説明" />
             </div>
-
-            <div class="subgrid">
-              <p class="subgrid-title">ASINスコア算出設定</p>
-              <div class="abc">
-                <div class="label">分散の強さ</div><div><div class="input-with-unit"><input class="setting-input" type="number" value="1.0" step="0.1" min="0" /></div></div>
-                <div class="label">回数の効き</div><div><div class="input-with-unit"><input class="setting-input" type="number" value="3" min="0" /><span class="unit">回</span></div></div>
-                <div class="label">直近の重み</div><div><div class="input-with-unit"><input class="setting-input" type="number" value="0.5" step="0.1" min="0" /></div></div>
-                <div class="label">発売開始～現在までの日数</div><div><div class="input-with-unit"><input class="setting-input" type="number" value="120" min="0" /><span class="unit">日</span></div></div>
-                <div class="label">乖離率の影響（最大値）</div><div><div class="input-with-unit"><input class="setting-input" type="number" value="20.00" step="0.01" min="0" /><span class="unit">%</span></div></div>
-                <div class="label">推奨しきい値</div><div><div class="input-with-unit"><input class="setting-input" type="number" value="0.90" step="0.01" min="0" /></div></div>
-              </div>
-            </div>
           </div>
         </article>
 
@@ -430,7 +490,6 @@
       const usageRadios = document.querySelectorAll('input[name="slc_usage"]');
       const slcExtraRows = document.querySelectorAll(".slc-extra-row");
       const slcCostInput = document.getElementById("slc-cost");
-      const slcSurchargeInput = document.getElementById("slc-surcharge");
       const termRadios = document.querySelectorAll('input[name="term"]');
       const termAInput = document.getElementById("term-a");
       const termBInput = document.getElementById("term-b");
@@ -438,11 +497,22 @@
       const termLabelEls = document.querySelectorAll(".term-value-label");
       const amountInputs = document.querySelectorAll(".amount-input");
       const tooltipHosts = document.querySelectorAll(".tooltip-host");
+      const toggleCheckboxes = document.querySelectorAll(".toggle input[type='checkbox']");
+
+      const syncToggleLabels = () => {
+        toggleCheckboxes.forEach((checkbox) => {
+          const statusEl = checkbox.parentElement.querySelector(".toggle-status");
+          if (!statusEl) return;
+          const onLabel = checkbox.dataset.onLabel || "有効";
+          const offLabel = checkbox.dataset.offLabel || "無効";
+          statusEl.textContent = checkbox.checked ? onLabel : offLabel;
+        });
+      };
 
       const syncSlcRows = () => {
         const selectedUsage = document.querySelector('input[name="slc_usage"]:checked')?.value;
         const isDisabled = selectedUsage === "併用中";
-        [slcCostInput, slcSurchargeInput].forEach((input) => {
+        [slcCostInput].forEach((input) => {
           input.disabled = isDisabled;
         });
         slcExtraRows.forEach((row) => {
@@ -534,6 +604,10 @@
         radio.addEventListener("change", syncSlcRows);
       });
 
+      toggleCheckboxes.forEach((checkbox) => {
+        checkbox.addEventListener("change", syncToggleLabels);
+      });
+
       termRadios.forEach((radio) => {
         radio.addEventListener("change", syncTermValues);
       });
@@ -578,6 +652,7 @@
       removeMergeConflictMarkers();
       syncSlcRows();
       syncTermValues();
+      syncToggleLabels();
     </script>
   </body>
 </html>
