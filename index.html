@@ -357,11 +357,11 @@
               </div><div class="cell"><div class="input-with-unit"><input class="setting-input amount-input" type="text" inputmode="numeric" value="100000" /><span class="unit">円</span></div></div>
               <div class="cell label">
                 <span class="tooltip-host">
-                  粗利益率（旧：目標利益率）
+                  粗利益率
                   <span class="tooltip-mark" tabindex="0">?</span>
-                  <span class="tooltip-bubble">設定した粗利益率を下回る場合、ASINリサーチ画面（セラーモード）に表示されません</span>
+                  <span class="tooltip-bubble">設定した粗利益率を下回るASINの場合、ASINリサーチ画面（セラーモード）に表示されません</span>
                 </span>
-              </div><div class="cell"><div class="input-with-unit"><input class="setting-input" type="number" value="5" min="0" /><span class="unit">％以上を表示</span></div></div>
+              </div><div class="cell"><div class="input-with-unit"><input class="setting-input" type="number" value="5" min="0" /><span class="unit">%以上を表示</span></div></div>
               <div class="cell label">
                 <span class="tooltip-host">
                   予測30日販売数
@@ -387,14 +387,14 @@
                 <span class="tooltip-host">
                   関税割合
                   <span class="tooltip-mark" tabindex="0">?</span>
-                  <span class="tooltip-bubble">毎月、直近関税率の平均を算出して設定されてください。</span>
+                  <span class="tooltip-bubble">毎月、直近関税率の平均を算出して設定してください。</span>
                 </span>
               </div><div class="cell"><div class="input-with-unit"><input class="setting-input" type="number" value="17.80" step="0.01" min="0" /><span class="unit">%</span></div></div>
               <div class="cell label">
                 <span class="tooltip-host">
                   送料係数
                   <span class="tooltip-mark" tabindex="0">?</span>
-                  <span class="tooltip-bubble">送料係数が1.0(想定通り)に近づくように設定されてください。
+                  <span class="tooltip-bubble">送料係数が1.0(想定通り)に近づくように設定してください。
 ※送料係数の考え方はこちらを参照ください。</span>
                 </span>
               </div><div class="cell"><input class="setting-input" type="number" value="1.2" step="0.1" min="0" /></div>
@@ -409,7 +409,7 @@
                 <span class="tooltip-host">
                   Amazonポイントを加味する
                   <span class="tooltip-mark" tabindex="0">?</span>
-                  <span class="tooltip-bubble">ポイントが発生する場合のみ、それを差し引いて仕入れ値を計算します</span>
+                  <span class="tooltip-bubble">ポイントが発生する場合は、ポイントを差し引いて仕入れ値を計算します</span>
                 </span>
               </div><div class="cell"><label class="toggle"><input type="checkbox" checked /><span class="toggle-status">有効</span></label></div>
               <div class="cell label">
@@ -440,8 +440,7 @@
                 <span class="tooltip-host">
                   SLCサービス併用
                   <span class="tooltip-mark" tabindex="0">?</span>
-                  <span class="tooltip-bubble">SLCサービスとは…
-アメリカAmazon輸出をまるっと代行するサービスです！
+                  <span class="tooltip-bubble">SLCサービスとは、アメリカAmazon輸出をまるっと代行するサービスです。
 仕入れた商品の検品・梱包・発送はSLCに任せて、リサーチに専念できます。
 さらに当ツールをご利用中であれば送料割引が適用されます✨
 <a href="https://worldshift-inc.jp/slc/" target="_blank" rel="noopener noreferrer">https://worldshift-inc.jp/slc/</a>
@@ -458,7 +457,7 @@
                 <span class="tooltip-host">
                   1点あたりの必要経費
                   <span class="tooltip-mark" tabindex="0">?</span>
-                  <span class="tooltip-bubble">送料や手数料から算出</span>
+                  <span class="tooltip-bubble">送料(サーチャージ含む)や納品代行会社を利用している場合は手数料など1点あたりに必要な経費の目安を設定してください</span>
                 </span>
               </div>
               <div class="cell slc-extra-row"><div class="input-with-unit"><input id="slc-cost" class="setting-input amount-input" type="text" inputmode="numeric" value="500" /><span class="unit">円</span></div></div>
