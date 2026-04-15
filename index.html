@@ -392,8 +392,20 @@
                   <span class="tooltip-bubble">ASINをリサーチした際、ASINに紐づくセラーを収集してセラー画面に表示します</span>
                 </span>
               </div><div class="cell"><label class="toggle"><input type="checkbox" checked /><span class="toggle-status">有効</span></label></div>
-              <div class="cell label">知財</div><div class="cell"><label class="toggle"><input type="checkbox" checked /><span class="toggle-status">有効</span></label></div>
-              <div class="cell label">大型</div><div class="cell"><label class="toggle"><input type="checkbox" checked /><span class="toggle-status">有効</span></label></div>
+              <div class="cell label">
+                <span class="tooltip-host">
+                  知財
+                  <span class="tooltip-mark" tabindex="0">?</span>
+                  <span class="tooltip-bubble">知財に該当するASINの場合、リサーチ画面（セラーモード）への表示/非表示を設定します</span>
+                </span>
+              </div><div class="cell"><label class="toggle"><input type="checkbox" checked data-on-label="表示" data-off-label="非表示" /><span class="toggle-status">表示</span></label></div>
+              <div class="cell label">
+                <span class="tooltip-host">
+                  大型
+                  <span class="tooltip-mark" tabindex="0">?</span>
+                  <span class="tooltip-bubble">大型に該当するASINの場合、リサーチ画面（セラーモード）への表示/非表示を設定します</span>
+                </span>
+              </div><div class="cell"><label class="toggle"><input type="checkbox" checked data-on-label="表示" data-off-label="非表示" /><span class="toggle-status">表示</span></label></div>
               <div class="cell label">
                 <span class="tooltip-host">
                   T売上目標
@@ -448,8 +460,6 @@
                 </span>
               </div>
               <div class="cell slc-extra-row"><div class="input-with-unit"><input id="slc-cost" class="setting-input amount-input" type="text" inputmode="numeric" value="500" /><span class="unit">円</span></div></div>
-              <div class="cell label slc-extra-row">サーチャージ率</div>
-              <div class="cell slc-extra-row"><div class="input-with-unit"><input id="slc-surcharge" class="setting-input" type="number" value="30.00" step="0.01" min="0" /><span class="unit">%</span></div></div>
             </div>
             <div class="subgrid">
               <p class="subgrid-title">ASINスコア算出期間</p>
@@ -466,16 +476,6 @@
               </div>
               <img class="term-help-image" src="長期～短期の説明.png" alt="長期から短期までの算出期間説明" />
             </div>
-
-            <div class="subgrid">
-              <p class="subgrid-title">ASINスコア算出設定</p>
-              <div class="abc">
-                <div class="label">直近・回数ブロック</div><div><div class="input-with-unit"><input class="setting-input" type="number" value="25.00" step="0.01" min="0" max="100" /><span class="unit">%</span></div></div>
-                <div class="label">分散ブロック</div><div><div class="input-with-unit"><input class="setting-input" type="number" value="50.00" step="0.01" min="0" max="100" /><span class="unit">%</span></div></div>
-                <div class="label">トレンドブロック</div><div><div class="input-with-unit"><input class="setting-input" type="number" value="25.00" step="0.01" min="0" max="100" /><span class="unit">%</span></div></div>
-                <div class="label">乖離率の影響（最大値）</div><div><div class="input-with-unit"><input class="setting-input" type="number" value="20.00" step="0.01" min="0" /><span class="unit">%</span></div></div>
-              </div>
-            </div>
           </div>
         </article>
 
@@ -489,7 +489,6 @@
       const usageRadios = document.querySelectorAll('input[name="slc_usage"]');
       const slcExtraRows = document.querySelectorAll(".slc-extra-row");
       const slcCostInput = document.getElementById("slc-cost");
-      const slcSurchargeInput = document.getElementById("slc-surcharge");
       const termRadios = document.querySelectorAll('input[name="term"]');
       const termAInput = document.getElementById("term-a");
       const termBInput = document.getElementById("term-b");
@@ -503,14 +502,16 @@
         toggleCheckboxes.forEach((checkbox) => {
           const statusEl = checkbox.parentElement.querySelector(".toggle-status");
           if (!statusEl) return;
-          statusEl.textContent = checkbox.checked ? "有効" : "無効";
+          const onLabel = checkbox.dataset.onLabel || "有効";
+          const offLabel = checkbox.dataset.offLabel || "無効";
+          statusEl.textContent = checkbox.checked ? onLabel : offLabel;
         });
       };
 
       const syncSlcRows = () => {
         const selectedUsage = document.querySelector('input[name="slc_usage"]:checked')?.value;
         const isDisabled = selectedUsage === "併用中";
-        [slcCostInput, slcSurchargeInput].forEach((input) => {
+        [slcCostInput].forEach((input) => {
           input.disabled = isDisabled;
         });
         slcExtraRows.forEach((row) => {
