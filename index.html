@@ -241,28 +241,26 @@
       }
 
       .subgrid-heading {
-        display: grid;
-        grid-template-columns: 55% 45%;
+        display: block;
       }
 
       .subgrid-heading .heading-cell {
-        min-height: 48px;
+        min-height: 44px;
         padding: 8px 10px;
         display: flex;
         align-items: center;
         background: #f7f9ff;
-        border-right: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
       }
 
-      .subgrid-heading .heading-cell:last-child {
-        border-right: none;
+      .term-select-row {
+        padding: 8px 10px;
+        background: #f7f9ff;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
       }
 
-      .subgrid-heading .heading-cell.control-cell {
-        justify-content: flex-start;
-      }
-
-      .subgrid-heading .setting-select {
+      .term-select-row .setting-select {
         max-width: 220px;
       }
 
@@ -300,6 +298,11 @@
         width: 100%;
         margin-top: 8px;
         border-radius: 8px;
+      }
+
+      .term-help-image-inline {
+        margin-top: 0;
+        border-radius: 0;
       }
 
       .actions {
@@ -485,14 +488,15 @@
                   <div class="heading-cell">
                     <p class="subgrid-title">ASINスコア算出期間</p>
                   </div>
-                  <div class="heading-cell control-cell">
-                    <select id="term-select" class="setting-select" aria-label="ASINスコア算出期間">
-                      <option value="short">短期（速度重視）</option>
-                      <option value="standard" selected>標準</option>
-                      <option value="long">長期（安定重視）</option>
-                      <option value="custom">カスタマイズ</option>
-                    </select>
-                  </div>
+                </div>
+                <img class="term-help-image term-help-image-inline" src="長期～短期の説明.png" alt="長期から短期までの算出期間説明" />
+                <div class="term-select-row">
+                  <select id="term-select" class="setting-select" aria-label="ASINスコア算出期間">
+                    <option value="short">短期（速度重視）</option>
+                    <option value="standard" selected>標準</option>
+                    <option value="long">長期（安定重視）</option>
+                    <option value="custom">カスタマイズ</option>
+                  </select>
                 </div>
                 <div id="term-abc" class="abc">
                   <div class="label">A.データ範囲</div><div><div class="input-with-unit"><input id="term-a" class="setting-input term-edit-input" type="number" value="90" min="1" style="display: none;" disabled /><span class="term-value-label show" data-term-label-for="term-a">90</span><span class="unit">日</span></div></div>
@@ -500,7 +504,6 @@
                   <div class="label">C.周期判定</div><div><div class="input-with-unit"><input id="term-c" class="setting-input term-edit-input" type="number" value="60" min="1" style="display: none;" disabled /><span class="term-value-label show" data-term-label-for="term-c">60</span><span class="unit">日</span></div></div>
                 </div>
               </div>
-              <img class="term-help-image" src="長期～短期の説明.png" alt="長期から短期までの算出期間説明" />
               <img class="term-help-image" src="A～Cの説明.png" alt="A～C設定の説明" />
             </div>
           </div>
