@@ -216,15 +216,15 @@
 
       .subgrid {
         margin-top: 14px;
-        border: 1px solid #b6d5cb;
+        border: 1px solid var(--line);
         border-radius: 12px;
-        background: var(--mint);
+        background: #f2f4fb;
         padding: 6px;
       }
 
       .subgrid-title {
         margin: 0 0 6px;
-        color: #2f4f45;
+        color: var(--ink);
         font-weight: 700;
         font-size: 14px;
       }
@@ -244,8 +244,8 @@
       }
 
       .radio-row label {
-        background: #edf4f1;
-        border: 1px solid #9ec3b6;
+        background: #eef3ff;
+        border: 1px solid #b9c7e8;
         padding: 6px 10px;
         border-radius: 999px;
         display: inline-flex;
@@ -255,22 +255,22 @@
       .abc {
         display: grid;
         grid-template-columns: 55% 45%;
-        border: 1px solid #a8cfc1;
+        border: 1px solid var(--line);
         border-radius: 10px;
         overflow: hidden;
       }
 
       .abc div {
         padding: 4px 6px;
-        border-bottom: 1px solid #a8cfc1;
+        border-bottom: 1px solid var(--line);
         border-right: none;
-        background: #eff7f4;
+        background: #f7f9ff;
         display: flex;
         align-items: center;
         min-height: 36px;
       }
 
-      .abc div:nth-child(2n + 1) { border-right: 1px solid #a8cfc1; }
+      .abc div:nth-child(2n + 1) { border-right: 1px solid var(--line); }
       .abc div:nth-last-child(-n + 2) { border-bottom: none; }
 
       .term-value-label {
@@ -348,16 +348,16 @@
             <div class="table">
               <div class="cell label">
                 <span class="tooltip-host">
-                  T売上目標
+                  月間売上目標
                   <span class="tooltip-mark" tabindex="0">?</span>
-                  <span class="tooltip-bubble">ターゲット売上目標。設定した金額と現時点の売上を比較することができます。</span>
+                  <span class="tooltip-bubble">TOP画面にて、設定した月間の目標売上金額と現時点の売上を比較することができます。</span>
                 </span>
               </div><div class="cell"><div class="input-with-unit"><input class="setting-input amount-input" type="text" inputmode="numeric" value="100000" /><span class="unit">円</span></div></div>
               <div class="cell label">
                 <span class="tooltip-host">
-                  T利益目標
+                  月間利益目標
                   <span class="tooltip-mark" tabindex="0">?</span>
-                  <span class="tooltip-bubble">ターゲット利益目標。設定した金額と現時点の利益を比較することができます。</span>
+                  <span class="tooltip-bubble">TOP画面にて、設定した月間の目標利益金額と現時点の利益を比較することができます。</span>
                 </span>
               </div><div class="cell"><div class="input-with-unit"><input class="setting-input amount-input" type="text" inputmode="numeric" value="100000" /><span class="unit">円</span></div></div>
               <div class="cell label">
