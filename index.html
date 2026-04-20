@@ -237,11 +237,29 @@
       }
 
       .subgrid-heading {
+        display: grid;
+        grid-template-columns: 55% 45%;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 8px;
+      }
+
+      .subgrid-heading .heading-cell {
+        min-height: 48px;
+        padding: 8px 10px;
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        margin-bottom: 8px;
+        background: #f7f9ff;
+        border-right: 1px solid var(--line);
+      }
+
+      .subgrid-heading .heading-cell:last-child {
+        border-right: none;
+      }
+
+      .subgrid-heading .heading-cell.control-cell {
+        justify-content: flex-start;
       }
 
       .subgrid-heading .setting-select {
@@ -465,13 +483,17 @@
             </div>
             <div class="subgrid">
               <div class="subgrid-heading">
-                <p class="subgrid-title">ASINスコア算出期間</p>
-                <select id="term-select" class="setting-select" aria-label="ASINスコア算出期間">
-                  <option value="short">短期（速度重視）</option>
-                  <option value="standard" selected>標準</option>
-                  <option value="long">長期（安定重視）</option>
-                  <option value="custom">カスタマイズ</option>
-                </select>
+                <div class="heading-cell">
+                  <p class="subgrid-title">ASINスコア算出期間</p>
+                </div>
+                <div class="heading-cell control-cell">
+                  <select id="term-select" class="setting-select" aria-label="ASINスコア算出期間">
+                    <option value="short">短期（速度重視）</option>
+                    <option value="standard" selected>標準</option>
+                    <option value="long">長期（安定重視）</option>
+                    <option value="custom">カスタマイズ</option>
+                  </select>
+                </div>
               </div>
               <div id="term-abc" class="abc">
                 <div class="label">A.データ範囲</div><div><div class="input-with-unit"><input id="term-a" class="setting-input term-edit-input" type="number" value="90" min="1" style="display: none;" disabled /><span class="term-value-label show" data-term-label-for="term-a">90</span><span class="unit">日</span></div></div>
