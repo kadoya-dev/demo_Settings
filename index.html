@@ -216,17 +216,17 @@
 
       .subgrid {
         margin-top: 14px;
-        border: 1px solid #b6d5cb;
+        border: 1px solid var(--line);
         border-radius: 12px;
-        background: var(--mint);
+        background: #f2f4fb;
         padding: 6px;
       }
 
       .subgrid-title {
-        margin: 0 0 6px;
-        color: #2f4f45;
+        margin: 0;
+        color: var(--ink);
         font-weight: 700;
-        font-size: 14px;
+        font-size: 16px;
       }
 
       .inner-section-title {
@@ -236,41 +236,37 @@
         color: #1d3158;
       }
 
-      .radio-row {
+      .subgrid-heading {
         display: flex;
-        gap: 14px;
-        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
         margin-bottom: 8px;
       }
 
-      .radio-row label {
-        background: #edf4f1;
-        border: 1px solid #9ec3b6;
-        padding: 6px 10px;
-        border-radius: 999px;
-        display: inline-flex;
-        gap: 8px;
+      .subgrid-heading .setting-select {
+        max-width: 220px;
       }
 
       .abc {
         display: grid;
         grid-template-columns: 55% 45%;
-        border: 1px solid #a8cfc1;
+        border: 1px solid var(--line);
         border-radius: 10px;
         overflow: hidden;
       }
 
       .abc div {
         padding: 4px 6px;
-        border-bottom: 1px solid #a8cfc1;
+        border-bottom: 1px solid var(--line);
         border-right: none;
-        background: #eff7f4;
+        background: #f7f9ff;
         display: flex;
         align-items: center;
         min-height: 36px;
       }
 
-      .abc div:nth-child(2n + 1) { border-right: 1px solid #a8cfc1; }
+      .abc div:nth-child(2n + 1) { border-right: 1px solid var(--line); }
       .abc div:nth-last-child(-n + 2) { border-bottom: none; }
 
       .term-value-label {
@@ -348,16 +344,16 @@
             <div class="table">
               <div class="cell label">
                 <span class="tooltip-host">
-                  T売上目標
+                  月間売上目標
                   <span class="tooltip-mark" tabindex="0">?</span>
-                  <span class="tooltip-bubble">ターゲット売上目標。設定した金額と現時点の売上を比較することができます。</span>
+                  <span class="tooltip-bubble">TOP画面にて、設定した月間の目標売上金額と現時点の売上を比較することができます。</span>
                 </span>
               </div><div class="cell"><div class="input-with-unit"><input class="setting-input amount-input" type="text" inputmode="numeric" value="100000" /><span class="unit">円</span></div></div>
               <div class="cell label">
                 <span class="tooltip-host">
-                  T利益目標
+                  月間利益目標
                   <span class="tooltip-mark" tabindex="0">?</span>
-                  <span class="tooltip-bubble">ターゲット利益目標。設定した金額と現時点の利益を比較することができます。</span>
+                  <span class="tooltip-bubble">TOP画面にて、設定した月間の目標利益金額と現時点の利益を比較することができます。</span>
                 </span>
               </div><div class="cell"><div class="input-with-unit"><input class="setting-input amount-input" type="text" inputmode="numeric" value="100000" /><span class="unit">円</span></div></div>
               <div class="cell label">
@@ -468,12 +464,14 @@
               <div class="cell slc-extra-row"><div class="input-with-unit"><input id="slc-cost" class="setting-input amount-input" type="text" inputmode="numeric" value="500" /><span class="unit">円</span></div></div>
             </div>
             <div class="subgrid">
-              <p class="subgrid-title">ASINスコア算出期間</p>
-              <div class="radio-row">
-                <label><input type="radio" name="term" value="short" /> 短期（速度重視）</label>
-                <label><input type="radio" name="term" value="standard" checked /> 標準</label>
-                <label><input type="radio" name="term" value="long" /> 長期（安定重視）</label>
-                <label><input type="radio" name="term" value="custom" /> カスタマイズ</label>
+              <div class="subgrid-heading">
+                <p class="subgrid-title">ASINスコア算出期間</p>
+                <select id="term-select" class="setting-select" aria-label="ASINスコア算出期間">
+                  <option value="short">短期（速度重視）</option>
+                  <option value="standard" selected>標準</option>
+                  <option value="long">長期（安定重視）</option>
+                  <option value="custom">カスタマイズ</option>
+                </select>
               </div>
               <div id="term-abc" class="abc">
                 <div class="label">A.データ範囲</div><div><div class="input-with-unit"><input id="term-a" class="setting-input term-edit-input" type="number" value="90" min="1" style="display: none;" disabled /><span class="term-value-label show" data-term-label-for="term-a">90</span><span class="unit">日</span></div></div>
@@ -495,7 +493,7 @@
       const usageRadios = document.querySelectorAll('input[name="slc_usage"]');
       const slcExtraRows = document.querySelectorAll(".slc-extra-row");
       const slcCostInput = document.getElementById("slc-cost");
-      const termRadios = document.querySelectorAll('input[name="term"]');
+      const termSelect = document.getElementById("term-select");
       const termAInput = document.getElementById("term-a");
       const termBInput = document.getElementById("term-b");
       const termCInput = document.getElementById("term-c");
@@ -540,7 +538,7 @@
       };
 
       const syncTermValues = () => {
-        const selectedTerm = document.querySelector('input[name="term"]:checked')?.value || "standard";
+        const selectedTerm = termSelect?.value || "standard";
         const values = selectedTerm === "custom"
           ? customTermValues
           : (termValueMap[selectedTerm] || termValueMap.standard);
@@ -613,9 +611,7 @@
         checkbox.addEventListener("change", syncToggleLabels);
       });
 
-      termRadios.forEach((radio) => {
-        radio.addEventListener("change", syncTermValues);
-      });
+      termSelect?.addEventListener("change", syncTermValues);
 
       const closeTooltipWithDelay = (host) => {
         clearTimeout(host.closeTimerId);
