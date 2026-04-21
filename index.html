@@ -215,9 +215,8 @@
       }
 
       .subgrid {
-        margin-top: 14px;
         background: #f2f4fb;
-        padding: 6px;
+        padding: 0;
       }
 
       .term-config {
@@ -225,6 +224,7 @@
         border-radius: 10px;
         overflow: hidden;
         background: #eef3ff;
+        width: 100%;
       }
 
       .subgrid-title {
@@ -250,7 +250,8 @@
         padding: 8px 10px;
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: flex-start;
+        flex-wrap: wrap;
         gap: 8px;
         background: #e8efff;
         border-bottom: 1px solid var(--line);
@@ -265,6 +266,17 @@
 
       .heading-right .setting-select {
         max-width: 220px;
+      }
+
+      .term-config-inline {
+        padding: 0;
+      }
+
+      .term-help-wide-row {
+        grid-column: 1 / -1;
+        padding: 0;
+        border-bottom: 1px solid var(--line);
+        background: #f2f4fb;
       }
 
       .mini-help-btn {
@@ -357,15 +369,15 @@
       }
 
       .btn {
-        border-radius: 10px;
-        min-height: 54px;
-        min-width: 124px;
-        padding: 0 28px;
+        border-radius: 18px;
+        min-height: 46px;
+        min-width: 108px;
+        padding: 0 22px;
         border: 1px solid #99aad8;
         background: #f3f6ff;
         color: #27427f;
         font-weight: 800;
-        font-size: 18px;
+        font-size: 16px;
         cursor: pointer;
         box-shadow: 0 3px 10px rgba(43, 74, 139, 0.14);
       }
@@ -459,12 +471,12 @@
                   送料係数
                   <span class="tooltip-mark" tabindex="0">?</span>
                   <span class="tooltip-bubble">送料係数が1.0(想定通り)に近づくように設定してください。
-※送料係数の考え方はこちらを参照ください。</span>
+<a href="shipping_coefficient_explainer.html" target="_blank" rel="noopener noreferrer">※送料係数とは？</a></span>
                 </span>
               </div><div class="cell"><input class="setting-input" type="number" value="1.2" step="0.1" min="0" /></div>
               <div class="cell label">
                 <span class="tooltip-host">
-                  リサーチ時にセラーを収集する
+                  セラーデータ自動収集
                   <span class="tooltip-mark" tabindex="0">?</span>
                   <span class="tooltip-bubble">ASINをリサーチした際、ASINに紐づくセラーを収集してセラー画面に表示します</span>
                 </span>
@@ -525,31 +537,18 @@
                 </span>
               </div>
               <div class="cell slc-extra-row"><div class="input-with-unit"><input id="slc-cost" class="setting-input amount-input" type="text" inputmode="numeric" value="500" /><span class="unit">円</span></div></div>
-            </div>
-            <div class="subgrid">
-              <div class="term-config">
-                <div class="subgrid-heading">
-                  <div class="heading-cell">
-                    <div class="heading-left">
-                      <span class="tooltip-host">
-                        <p class="subgrid-title">ASINスコア算出期間</p>
-                        <span class="tooltip-mark" tabindex="0">?</span>
-                        <span class="tooltip-bubble">ASINスコア算出で利用する期間を設定します。</span>
-                      </span>
-                      <button id="term-help-toggle" type="button" class="mini-help-btn" aria-expanded="false" aria-controls="term-help-image">とは？</button>
-                    </div>
-                    <div class="heading-right">
-                      <select id="term-select" class="setting-select" aria-label="ASINスコア算出期間">
-                        <option value="short">短期（速度重視）</option>
-                        <option value="standard" selected>標準</option>
-                        <option value="long">長期（安定重視）</option>
-                        <option value="custom">カスタマイズ</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <img id="term-help-image" class="term-help-image term-help-image-inline is-hidden" src="長期～短期の説明.png" alt="長期から短期までの算出期間説明" />
-                <div id="term-abc" class="abc">
+              <div class="cell label">
+                <span>ASINスコア算出期間 </span>
+                <button id="term-help-toggle" type="button" class="mini-help-btn">とは？</button>
+              </div>
+              <div class="cell term-config-inline">
+                <select id="term-select" class="setting-select" aria-label="ASINスコア算出期間">
+                  <option value="short">短期（速度重視）</option>
+                  <option value="standard" selected>標準</option>
+                  <option value="long">長期（安定重視）</option>
+                  <option value="custom" hidden>カスタマイズ</option>
+                </select>
+                <div id="term-abc" class="abc is-hidden">
                   <div class="label">A.データ範囲 <button id="term-a-help-toggle" type="button" class="mini-help-btn small" aria-expanded="false" aria-controls="term-a-help-row">とは？</button></div><div><div class="input-with-unit"><input id="term-a" class="setting-input term-edit-input" type="number" value="90" min="1" style="display: none;" disabled /><span class="term-value-label show" data-term-label-for="term-a">90</span><span class="unit">日</span></div></div>
                   <div id="term-a-help-row" class="term-inline-help-row is-hidden"><img src="データ範囲.png" alt="A.データ範囲の説明" /></div>
                   <div class="label">B.時間重み <button id="term-b-help-toggle" type="button" class="mini-help-btn small" aria-expanded="false" aria-controls="term-b-help-row">とは？</button></div><div><div class="input-with-unit"><input id="term-b" class="setting-input term-edit-input" type="number" value="60" min="1" style="display: none;" disabled /><span class="term-value-label show" data-term-label-for="term-b">60</span><span class="unit">日</span></div></div>
@@ -557,6 +556,9 @@
                   <div class="label">C.周期判定 <button id="term-c-help-toggle" type="button" class="mini-help-btn small" aria-expanded="false" aria-controls="term-c-help-row">とは？</button></div><div><div class="input-with-unit"><input id="term-c" class="setting-input term-edit-input" type="number" value="60" min="1" style="display: none;" disabled /><span class="term-value-label show" data-term-label-for="term-c">60</span><span class="unit">日</span></div></div>
                   <div id="term-c-help-row" class="term-inline-help-row is-hidden"><img src="周期判定.png" alt="C.周期判定の説明" /></div>
                 </div>
+              </div>
+              <div id="term-help-wide-row" class="term-help-wide-row is-hidden">
+                <img id="term-help-image" class="term-help-image term-help-image-inline" src="長期～短期の説明.png" alt="長期から短期までの算出期間説明" />
               </div>
             </div>
           </div>
@@ -575,6 +577,7 @@
       const termSelect = document.getElementById("term-select");
       const termHelpToggle = document.getElementById("term-help-toggle");
       const termHelpImage = document.getElementById("term-help-image");
+      const termHelpWideRow = document.getElementById("term-help-wide-row");
       const termAHelpToggle = document.getElementById("term-a-help-toggle");
       const termAHelpRow = document.getElementById("term-a-help-row");
       const termBHelpToggle = document.getElementById("term-b-help-toggle");
@@ -710,10 +713,9 @@
 
       termSelect?.addEventListener("change", syncTermValues);
       termHelpToggle?.addEventListener("click", () => {
-        const isHidden = termHelpImage?.classList.contains("is-hidden");
-        if (!termHelpImage || !termHelpToggle) return;
-        termHelpImage.classList.toggle("is-hidden", !isHidden);
-        termHelpToggle.setAttribute("aria-expanded", String(isHidden));
+        const isHidden = termHelpWideRow?.classList.contains("is-hidden");
+        if (!termHelpWideRow || !termHelpToggle || !termHelpImage) return;
+        termHelpWideRow.classList.toggle("is-hidden", !isHidden);
       });
       bindTermHelpToggle(termAHelpToggle, termAHelpRow);
       bindTermHelpToggle(termBHelpToggle, termBHelpRow);
