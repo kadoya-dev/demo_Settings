@@ -215,9 +215,8 @@
       }
 
       .subgrid {
-        margin-top: 14px;
         background: #f2f4fb;
-        padding: 6px;
+        padding: 0;
       }
 
       .term-config {
@@ -225,6 +224,7 @@
         border-radius: 10px;
         overflow: hidden;
         background: #eef3ff;
+        width: 100%;
       }
 
       .subgrid-title {
@@ -250,7 +250,8 @@
         padding: 8px 10px;
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: flex-start;
+        flex-wrap: wrap;
         gap: 8px;
         background: #e8efff;
         border-bottom: 1px solid var(--line);
@@ -265,6 +266,10 @@
 
       .heading-right .setting-select {
         max-width: 220px;
+      }
+
+      .term-config-inline {
+        padding: 0;
       }
 
       .mini-help-btn {
@@ -525,37 +530,41 @@
                 </span>
               </div>
               <div class="cell slc-extra-row"><div class="input-with-unit"><input id="slc-cost" class="setting-input amount-input" type="text" inputmode="numeric" value="500" /><span class="unit">円</span></div></div>
-            </div>
-            <div class="subgrid">
-              <div class="term-config">
-                <div class="subgrid-heading">
-                  <div class="heading-cell">
-                    <div class="heading-left">
-                      <span class="tooltip-host">
-                        <p class="subgrid-title">ASINスコア算出期間</p>
-                        <span class="tooltip-mark" tabindex="0">?</span>
-                        <span class="tooltip-bubble">ASINスコア算出で利用する期間を設定します。</span>
-                      </span>
-                      <button id="term-help-toggle" type="button" class="mini-help-btn" aria-expanded="false" aria-controls="term-help-image">とは？</button>
+              <div class="cell label">
+                <span class="tooltip-host">
+                  ASINスコア算出期間
+                  <span class="tooltip-mark" tabindex="0">?</span>
+                  <span class="tooltip-bubble">ASINスコア算出で利用する期間を設定します。</span>
+                </span>
+              </div>
+              <div class="cell term-config-inline">
+                <div class="subgrid">
+                  <div class="term-config">
+                    <div class="subgrid-heading">
+                      <div class="heading-cell">
+                        <div class="heading-left">
+                          <button id="term-help-toggle" type="button" class="mini-help-btn" aria-expanded="false" aria-controls="term-help-image">とは？</button>
+                        </div>
+                        <div class="heading-right">
+                          <select id="term-select" class="setting-select" aria-label="ASINスコア算出期間">
+                            <option value="short">短期（速度重視）</option>
+                            <option value="standard" selected>標準</option>
+                            <option value="long">長期（安定重視）</option>
+                            <option value="custom" hidden>カスタマイズ</option>
+                          </select>
+                        </div>
+                      </div>
                     </div>
-                    <div class="heading-right">
-                      <select id="term-select" class="setting-select" aria-label="ASINスコア算出期間">
-                        <option value="short">短期（速度重視）</option>
-                        <option value="standard" selected>標準</option>
-                        <option value="long">長期（安定重視）</option>
-                        <option value="custom">カスタマイズ</option>
-                      </select>
+                    <img id="term-help-image" class="term-help-image term-help-image-inline is-hidden" src="長期～短期の説明.png" alt="長期から短期までの算出期間説明" />
+                    <div id="term-abc" class="abc is-hidden">
+                      <div class="label">A.データ範囲 <button id="term-a-help-toggle" type="button" class="mini-help-btn small" aria-expanded="false" aria-controls="term-a-help-row">とは？</button></div><div><div class="input-with-unit"><input id="term-a" class="setting-input term-edit-input" type="number" value="90" min="1" style="display: none;" disabled /><span class="term-value-label show" data-term-label-for="term-a">90</span><span class="unit">日</span></div></div>
+                      <div id="term-a-help-row" class="term-inline-help-row is-hidden"><img src="データ範囲.png" alt="A.データ範囲の説明" /></div>
+                      <div class="label">B.時間重み <button id="term-b-help-toggle" type="button" class="mini-help-btn small" aria-expanded="false" aria-controls="term-b-help-row">とは？</button></div><div><div class="input-with-unit"><input id="term-b" class="setting-input term-edit-input" type="number" value="60" min="1" style="display: none;" disabled /><span class="term-value-label show" data-term-label-for="term-b">60</span><span class="unit">日</span></div></div>
+                      <div id="term-b-help-row" class="term-inline-help-row is-hidden"><img src="時間重み.png" alt="B.時間重みの説明" /></div>
+                      <div class="label">C.周期判定 <button id="term-c-help-toggle" type="button" class="mini-help-btn small" aria-expanded="false" aria-controls="term-c-help-row">とは？</button></div><div><div class="input-with-unit"><input id="term-c" class="setting-input term-edit-input" type="number" value="60" min="1" style="display: none;" disabled /><span class="term-value-label show" data-term-label-for="term-c">60</span><span class="unit">日</span></div></div>
+                      <div id="term-c-help-row" class="term-inline-help-row is-hidden"><img src="周期判定.png" alt="C.周期判定の説明" /></div>
                     </div>
                   </div>
-                </div>
-                <img id="term-help-image" class="term-help-image term-help-image-inline is-hidden" src="長期～短期の説明.png" alt="長期から短期までの算出期間説明" />
-                <div id="term-abc" class="abc">
-                  <div class="label">A.データ範囲 <button id="term-a-help-toggle" type="button" class="mini-help-btn small" aria-expanded="false" aria-controls="term-a-help-row">とは？</button></div><div><div class="input-with-unit"><input id="term-a" class="setting-input term-edit-input" type="number" value="90" min="1" style="display: none;" disabled /><span class="term-value-label show" data-term-label-for="term-a">90</span><span class="unit">日</span></div></div>
-                  <div id="term-a-help-row" class="term-inline-help-row is-hidden"><img src="データ範囲.png" alt="A.データ範囲の説明" /></div>
-                  <div class="label">B.時間重み <button id="term-b-help-toggle" type="button" class="mini-help-btn small" aria-expanded="false" aria-controls="term-b-help-row">とは？</button></div><div><div class="input-with-unit"><input id="term-b" class="setting-input term-edit-input" type="number" value="60" min="1" style="display: none;" disabled /><span class="term-value-label show" data-term-label-for="term-b">60</span><span class="unit">日</span></div></div>
-                  <div id="term-b-help-row" class="term-inline-help-row is-hidden"><img src="時間重み.png" alt="B.時間重みの説明" /></div>
-                  <div class="label">C.周期判定 <button id="term-c-help-toggle" type="button" class="mini-help-btn small" aria-expanded="false" aria-controls="term-c-help-row">とは？</button></div><div><div class="input-with-unit"><input id="term-c" class="setting-input term-edit-input" type="number" value="60" min="1" style="display: none;" disabled /><span class="term-value-label show" data-term-label-for="term-c">60</span><span class="unit">日</span></div></div>
-                  <div id="term-c-help-row" class="term-inline-help-row is-hidden"><img src="周期判定.png" alt="C.周期判定の説明" /></div>
                 </div>
               </div>
             </div>
