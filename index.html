@@ -368,6 +368,24 @@
         margin-top: 8px;
       }
 
+      .update-action {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: flex-end;
+      }
+
+      .save-message {
+        margin-bottom: 6px;
+        text-align: right;
+        color: #2f6b46;
+        font-size: 13px;
+        min-height: 1.2em;
+      }
+
+      .save-message.is-hidden {
+        visibility: hidden;
+      }
+
       .btn {
         border-radius: 18px;
         min-height: 46px;
@@ -423,14 +441,14 @@
                   <span class="tooltip-mark" tabindex="0">?</span>
                   <span class="tooltip-bubble">TOP画面にて、設定した月間の目標売上金額と現時点の売上を比較することができます。</span>
                 </span>
-              </div><div class="cell"><div class="input-with-unit"><input class="setting-input amount-input" type="text" inputmode="numeric" value="100000" /><span class="unit">円</span></div></div>
+              </div><div class="cell"><div class="input-with-unit"><input class="setting-input amount-input" type="text" inputmode="numeric" value="300000" /><span class="unit">円</span></div></div>
               <div class="cell label">
                 <span class="tooltip-host">
                   月間利益目標
                   <span class="tooltip-mark" tabindex="0">?</span>
                   <span class="tooltip-bubble">TOP画面にて、設定した月間の目標利益金額と現時点の利益を比較することができます。</span>
                 </span>
-              </div><div class="cell"><div class="input-with-unit"><input class="setting-input amount-input" type="text" inputmode="numeric" value="100000" /><span class="unit">円</span></div></div>
+              </div><div class="cell"><div class="input-with-unit"><input class="setting-input amount-input" type="text" inputmode="numeric" value="30000" /><span class="unit">円</span></div></div>
               <div class="cell label">
                 <span class="tooltip-host">
                   粗利益率
@@ -465,7 +483,7 @@
                   <span class="tooltip-mark" tabindex="0">?</span>
                   <span class="tooltip-bubble">毎月、直近関税率の平均を算出して設定してください。</span>
                 </span>
-              </div><div class="cell"><div class="input-with-unit"><input class="setting-input" type="number" value="17.80" step="0.01" min="0" /><span class="unit">%</span></div></div>
+              </div><div class="cell"><div class="input-with-unit"><input class="setting-input" type="number" value="20.00" step="0.01" min="0" /><span class="unit">%</span></div></div>
               <div class="cell label">
                 <span class="tooltip-host">
                   送料係数
@@ -505,7 +523,7 @@
               </div>
               <div class="cell">
                 <div class="radio-group-inline">
-                  <label><input type="checkbox" name="target_shop" value="Amazon" checked />Amazon</label>
+                  <label><input type="checkbox" name="target_shop" value="Amazon" />Amazon</label>
                   <label><input type="checkbox" name="target_shop" value="Yahoo!" />Yahoo!</label>
                   <span class="radio-break" aria-hidden="true"></span>
                   <label><input type="checkbox" name="target_shop" value="楽天" />楽天</label>
@@ -566,7 +584,10 @@
 
         <div class="actions">
           <button type="button" class="btn">戻る</button>
-          <button type="button" class="btn primary">更新</button>
+          <div class="update-action">
+            <p id="save-message" class="save-message is-hidden" role="status" aria-live="polite">更新が完了しました。</p>
+            <button type="button" id="update-button" class="btn primary">更新</button>
+          </div>
         </div>
       </section>
     </main>
@@ -591,6 +612,9 @@
       const amountInputs = document.querySelectorAll(".amount-input");
       const tooltipHosts = document.querySelectorAll(".tooltip-host");
       const toggleCheckboxes = document.querySelectorAll(".toggle input[type='checkbox']");
+      const updateButton = document.getElementById("update-button");
+      const saveMessage = document.getElementById("save-message");
+      let saveMessageTimerId;
 
       const syncToggleLabels = () => {
         toggleCheckboxes.forEach((checkbox) => {
@@ -756,6 +780,15 @@
 
       [termAInput, termBInput, termCInput].forEach((input) => {
         input.addEventListener("input", saveCustomTermValues);
+      });
+
+      updateButton?.addEventListener("click", () => {
+        if (!saveMessage) return;
+        saveMessage.classList.remove("is-hidden");
+        clearTimeout(saveMessageTimerId);
+        saveMessageTimerId = setTimeout(() => {
+          saveMessage.classList.add("is-hidden");
+        }, 2500);
       });
 
       removeMergeConflictMarkers();
