@@ -368,22 +368,27 @@
         margin-top: 8px;
       }
 
-      .update-action {
-        display: inline-flex;
-        flex-direction: column;
-        align-items: flex-end;
+      .save-toast {
+        position: fixed;
+        left: 50%;
+        bottom: 24px;
+        transform: translateX(-50%) translateY(12px);
+        padding: 10px 16px;
+        border-radius: 999px;
+        background: rgba(35, 96, 61, 0.95);
+        color: #fff;
+        font-weight: 700;
+        font-size: 14px;
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+        z-index: 3000;
       }
 
-      .save-message {
-        margin-bottom: 6px;
-        text-align: right;
-        color: #2f6b46;
-        font-size: 13px;
-        min-height: 1.2em;
-      }
-
-      .save-message.is-hidden {
-        visibility: hidden;
+      .save-toast.is-visible {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
       }
 
       .btn {
@@ -584,14 +589,12 @@
 
         <div class="actions">
           <button type="button" class="btn">戻る</button>
-          <div class="update-action">
-            <p id="save-message" class="save-message is-hidden" role="status" aria-live="polite">更新が完了しました。</p>
-            <button type="button" id="update-button" class="btn primary">更新</button>
-          </div>
+          <button type="button" id="update-button" class="btn primary">更新</button>
         </div>
         <p id="save-message" class="save-message is-hidden" role="status" aria-live="polite">更新が完了しました。</p>
       </section>
     </main>
+    <p id="save-toast" class="save-toast" role="status" aria-live="polite">✅設定を更新しました</p>
     <script>
       const usageRadios = document.querySelectorAll('input[name="slc_usage"]');
       const slcExtraRows = document.querySelectorAll(".slc-extra-row");
@@ -614,8 +617,8 @@
       const tooltipHosts = document.querySelectorAll(".tooltip-host");
       const toggleCheckboxes = document.querySelectorAll(".toggle input[type='checkbox']");
       const updateButton = document.getElementById("update-button");
-      const saveMessage = document.getElementById("save-message");
-      let saveMessageTimerId;
+      const saveToast = document.getElementById("save-toast");
+      let saveToastTimerId;
 
       const syncToggleLabels = () => {
         toggleCheckboxes.forEach((checkbox) => {
@@ -784,12 +787,12 @@
       });
 
       updateButton?.addEventListener("click", () => {
-        if (!saveMessage) return;
-        saveMessage.classList.remove("is-hidden");
-        clearTimeout(saveMessageTimerId);
-        saveMessageTimerId = setTimeout(() => {
-          saveMessage.classList.add("is-hidden");
-        }, 2500);
+        if (!saveToast) return;
+        saveToast.classList.add("is-visible");
+        clearTimeout(saveToastTimerId);
+        saveToastTimerId = setTimeout(() => {
+          saveToast.classList.remove("is-visible");
+        }, 3000);
       });
 
       removeMergeConflictMarkers();
