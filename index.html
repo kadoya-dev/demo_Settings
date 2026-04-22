@@ -368,6 +368,18 @@
         margin-top: 8px;
       }
 
+      .save-message {
+        margin-top: 8px;
+        text-align: right;
+        color: #2f6b46;
+        font-size: 13px;
+        min-height: 1.2em;
+      }
+
+      .save-message.is-hidden {
+        visibility: hidden;
+      }
+
       .btn {
         border-radius: 18px;
         min-height: 46px;
@@ -566,8 +578,9 @@
 
         <div class="actions">
           <button type="button" class="btn">戻る</button>
-          <button type="button" class="btn primary">更新</button>
+          <button type="button" id="update-button" class="btn primary">更新</button>
         </div>
+        <p id="save-message" class="save-message is-hidden" role="status" aria-live="polite">更新が完了しました。</p>
       </section>
     </main>
     <script>
@@ -591,6 +604,9 @@
       const amountInputs = document.querySelectorAll(".amount-input");
       const tooltipHosts = document.querySelectorAll(".tooltip-host");
       const toggleCheckboxes = document.querySelectorAll(".toggle input[type='checkbox']");
+      const updateButton = document.getElementById("update-button");
+      const saveMessage = document.getElementById("save-message");
+      let saveMessageTimerId;
 
       const syncToggleLabels = () => {
         toggleCheckboxes.forEach((checkbox) => {
@@ -756,6 +772,15 @@
 
       [termAInput, termBInput, termCInput].forEach((input) => {
         input.addEventListener("input", saveCustomTermValues);
+      });
+
+      updateButton?.addEventListener("click", () => {
+        if (!saveMessage) return;
+        saveMessage.classList.remove("is-hidden");
+        clearTimeout(saveMessageTimerId);
+        saveMessageTimerId = setTimeout(() => {
+          saveMessage.classList.add("is-hidden");
+        }, 2500);
       });
 
       removeMergeConflictMarkers();
