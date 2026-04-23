@@ -45,7 +45,7 @@
       .section {
         border: 1px solid #bfcae6;
         border-radius: 14px;
-        overflow: hidden;
+        overflow: visible;
         margin-bottom: 8px;
       }
 
@@ -102,7 +102,7 @@
       .setting-input,
       .setting-select {
         width: 100%;
-        max-width: 180px;
+        max-width: 90px;
         min-height: 30px;
         border: 1px solid #b9c7e8;
         border-radius: 8px;
@@ -266,6 +266,11 @@
 
       .heading-right .setting-select {
         max-width: 220px;
+      }
+
+      .term-config-inline .setting-input,
+      .term-config-inline .setting-select {
+        max-width: 180px;
       }
 
       .term-config-inline {
@@ -446,7 +451,7 @@
                   <span class="tooltip-mark" tabindex="0">?</span>
                   <span class="tooltip-bubble">TOP画面にて、設定した月間の目標利益金額と現時点の利益を比較することができます。</span>
                 </span>
-              </div><div class="cell"><div class="input-with-unit"><input id="monthly-profit-goal" class="setting-input amount-input" type="text" inputmode="numeric" value="3" /><span class="unit">万円</span></div></div>
+              </div><div class="cell"><div class="input-with-unit"><input id="monthly-profit-goal" class="setting-input" type="number" inputmode="decimal" value="3.0" min="0" step="0.1" /><span class="unit">万円</span></div></div>
               <div class="cell label">÷</div><div class="cell"></div>
               <div class="cell label">
                 <span class="tooltip-host">
@@ -462,7 +467,7 @@
                   <span class="tooltip-mark" tabindex="0">?</span>
                   <span class="tooltip-bubble">TOP画面にて、設定した月間の目標売上金額と現時点の売上を比較することができます。</span>
                 </span>
-              </div><div class="cell"><div class="input-with-unit"><input id="monthly-sales-goal" class="setting-input amount-input" type="text" inputmode="numeric" value="30" /><span class="unit">万円</span></div></div>
+              </div><div class="cell"><div class="input-with-unit"><input id="monthly-sales-goal" class="setting-input" type="number" inputmode="decimal" value="30.0" min="0" step="0.1" /><span class="unit">万円</span></div></div>
             </div>
           </div>
         </article>
@@ -720,9 +725,11 @@
 
       const parseAmountInputValue = (input) => {
         if (!input) return null;
-        const numeric = input.value.replace(/,/g, "").replace(/[^0-9]/g, "");
-        if (!numeric) return null;
-        return Number(numeric);
+        const normalized = String(input.value).replace(/,/g, "").trim();
+        if (!normalized) return null;
+        const numeric = Number(normalized);
+        if (!Number.isFinite(numeric)) return null;
+        return numeric;
       };
 
       const parseRateInputValue = (input) => {
@@ -734,7 +741,7 @@
 
       const setAmountInputValue = (input, value) => {
         if (!input || !Number.isFinite(value)) return;
-        input.value = Number(Math.round(value)).toLocaleString("ja-JP");
+        input.value = (Math.round(value * 10) / 10).toFixed(1);
       };
 
       const recalculateGoals = (changedField) => {
