@@ -934,6 +934,9 @@
       profitRateGoalInput?.addEventListener("input", () => {
         recalculateGoals("profitRate");
       });
+      fundRateInput?.addEventListener("input", () => {
+        recalculatePurchaseEstimate();
+      });
 
       usageRadios.forEach((radio) => {
         radio.addEventListener("change", syncSlcRows);
