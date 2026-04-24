@@ -109,7 +109,18 @@
         padding: 6px 10px;
         background: #fff;
         color: var(--ink);
-        font-size: 14px;
+        font-size: 15px;
+      }
+
+      .setting-input.is-optional {
+        background: #f2f4fb;
+        border-color: #b9c7e8;
+      }
+
+      .setting-input.is-optional:focus {
+        outline: none;
+        border-color: #b9c7e8;
+        background: #fff;
       }
 
       .setting-input.is-optional {
@@ -168,12 +179,12 @@
       .table .cell.primary-goal-row {
         border-top: 2px solid #6e85c2;
         border-bottom: 2px solid #6e85c2;
-        background: #fff;
+        background: #f2f4fb;
       }
 
       .table .cell.primary-goal-row.left {
         border-left: 2px solid #6e85c2;
-        border-right: none;
+        border-right: 1px solid var(--line);
         border-top-left-radius: 10px;
         border-bottom-left-radius: 10px;
       }
@@ -509,8 +520,8 @@
               <div class="cell label primary-goal-row left"><span class="primary-goal-label">利益目標</span></div><div class="cell primary-goal-row right"><div class="input-with-unit"><input id="monthly-profit-goal" class="setting-input" type="number" inputmode="decimal" value="3" min="0" step="1" /><span class="unit">万円</span></div></div>
               <div class="cell label">利益率目標</div><div class="cell"><div class="input-with-unit"><input id="profit-rate-goal" class="setting-input is-optional" type="number" value="10" min="0" step="1" /><span class="unit">%</span></div></div>
               <div class="cell label">売上目標</div><div class="cell"><div class="input-with-unit"><input id="monthly-sales-goal" class="setting-input is-optional" type="number" inputmode="decimal" value="30" min="0" step="1" /><span class="unit">万円</span></div></div>
-              <div class="cell label">原価金額</div><div class="cell"><div class="input-with-unit compact"><div id="purchase-estimate" class="readonly-value tight">27</div><span class="unit">万円</span></div></div>
               <div class="cell label">原価率</div><div class="cell"><div class="input-with-unit compact"><div id="cost-rate" class="readonly-value tight inline-value">90</div><span class="unit">%</span></div></div>
+              <div class="cell label">原価金額</div><div class="cell"><div class="input-with-unit compact"><div id="purchase-estimate" class="readonly-value tight inline-value">27</div><span class="unit">万円</span></div></div>
             </div>
           </div>
         </article>
