@@ -149,56 +149,81 @@
         padding: 10px;
       }
 
-      .goal-formula-row {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
-        gap: 8px;
-        align-items: end;
-      }
-
-      .goal-field {
+      .goal-division-card {
         border: 1px solid #ccd6ef;
         border-radius: 10px;
         background: #fff;
-        padding: 8px;
+        padding: 10px;
       }
 
-      .goal-field-label {
-        font-size: 13px;
+      .goal-main-row {
+        display: grid;
+        grid-template-columns: 130px minmax(0, 1fr);
+        gap: 8px;
+        align-items: center;
+      }
+
+      .goal-main-label {
+        font-size: 14px;
         font-weight: 700;
         color: #28426f;
-        margin-bottom: 6px;
       }
 
-      .goal-operator {
-        font-size: 18px;
+      .goal-rate-row {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 4px;
+        margin: 2px 0 4px;
+      }
+
+      .goal-rate-label {
+        font-size: 13px;
         font-weight: 700;
-        color: #3c5586;
-        padding-bottom: 8px;
-      }
-
-      .goal-formula-note {
-        margin: -2px 0 0;
-        font-size: 12px;
-        color: #5c6f94;
-      }
-
-      .goal-derived-row {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 8px;
-      }
-
-      .goal-field-label.sub {
-        font-size: 12px;
-        margin-bottom: 4px;
         color: #516791;
+      }
+
+      .goal-rate-mark {
+        font-size: 18px;
+        color: #3c5586;
+        line-height: 1;
+      }
+
+      .goal-divider {
+        border-top: 2px solid #9fb1da;
+        margin: 2px 0 8px;
+      }
+
+      .goal-derived-line {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+
+      .goal-derived-label {
+        font-size: 14px;
+        font-weight: 700;
+        color: #28426f;
+      }
+
+      .goal-derived-paren {
+        color: #516791;
+        font-size: 14px;
       }
 
       .readonly-value.tight {
         max-width: 90px;
         min-height: 30px;
         padding: 0;
+      }
+
+      .readonly-value.inline-value {
+        display: inline-flex;
+        width: auto;
+        max-width: none;
+        min-width: 0;
+        min-height: auto;
       }
 
       .toggle {
@@ -486,16 +511,12 @@
         .abc { grid-template-columns: 1fr; }
         .table .cell,
         .abc div { border-right: none !important; }
-        .goal-formula-row {
+        .goal-main-row {
           grid-template-columns: 1fr;
-          align-items: stretch;
+          gap: 4px;
         }
-        .goal-operator {
-          padding: 0;
-          text-align: center;
-        }
-        .goal-derived-row {
-          grid-template-columns: 1fr;
+        .goal-rate-row {
+          justify-content: flex-start;
         }
       }
     </style>
@@ -521,32 +542,26 @@
           <h2 class="section-title">月間目標設定</h2>
           <div class="section-body">
             <div class="goal-layout">
-              <div class="goal-formula-row">
-                <div class="goal-field">
-                  <div class="goal-field-label">利益目標</div>
+              <div class="goal-division-card">
+                <div class="goal-main-row">
+                  <div class="goal-main-label">利益目標</div>
                   <div class="input-with-unit"><input id="monthly-profit-goal" class="setting-input" type="number" inputmode="decimal" value="3" min="0" step="1" /><span class="unit">万円</span></div>
                 </div>
-                <div class="goal-operator">÷</div>
-                <div class="goal-field">
-                  <div class="goal-field-label">利益率目標</div>
+                <div class="goal-rate-row">
+                  <span class="goal-rate-mark">）</span>
+                  <span class="goal-rate-label">利益率目標</span>
                   <div class="input-with-unit"><input id="profit-rate-goal" class="setting-input" type="number" value="10" min="0" step="1" /><span class="unit">%</span></div>
                 </div>
-                <div class="goal-operator">＝</div>
-                <div class="goal-field">
-                  <div class="goal-field-label">売上目標</div>
+                <div class="goal-divider"></div>
+                <div class="goal-main-row">
+                  <div class="goal-main-label">売上目標</div>
                   <div class="input-with-unit"><input id="monthly-sales-goal" class="setting-input" type="number" inputmode="decimal" value="30" min="0" step="1" /><span class="unit">万円</span></div>
                 </div>
               </div>
-              <p class="goal-formula-note">※ 利益目標 ÷ 利益率目標 = 売上目標</p>
-              <div class="goal-derived-row">
-                <div class="goal-field">
-                  <div class="goal-field-label sub">（仕入れ目安金額）</div>
-                  <div class="input-with-unit compact"><div id="purchase-estimate" class="readonly-value tight">27</div><span class="unit">万円</span></div>
-                </div>
-                <div class="goal-field">
-                  <div class="goal-field-label sub">（原価率）</div>
-                  <div class="input-with-unit compact"><div id="cost-rate" class="readonly-value tight">90</div><span class="unit">%</span></div>
-                </div>
+              <div class="goal-derived-line">
+                <span class="goal-derived-label">仕入れ目安金額</span>
+                <div class="input-with-unit compact"><div id="purchase-estimate" class="readonly-value tight">27</div><span class="unit">万円</span></div>
+                <span class="goal-derived-paren">（<span id="cost-rate" class="readonly-value tight inline-value">90</span>%）</span>
               </div>
             </div>
           </div>
