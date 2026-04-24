@@ -109,7 +109,18 @@
         padding: 6px 10px;
         background: #fff;
         color: var(--ink);
-        font-size: 14px;
+        font-size: 15px;
+      }
+
+      .setting-input.is-optional {
+        background: #f2f4fb;
+        border-color: #b9c7e8;
+      }
+
+      .setting-input.is-optional:focus {
+        outline: none;
+        border-color: #b9c7e8;
+        background: #fff;
       }
 
       .readonly-value {
@@ -130,10 +141,28 @@
         width: 100%;
       }
 
+      .input-with-unit.compact {
+        gap: 4px;
+      }
+
       .unit {
         color: var(--muted);
         font-size: 14px;
         white-space: nowrap;
+      }
+
+      .readonly-value.tight {
+        max-width: 90px;
+        min-height: 30px;
+        padding: 0;
+      }
+
+      .readonly-value.inline-value {
+        display: inline-flex;
+        width: auto;
+        max-width: none;
+        min-width: 0;
+        min-height: auto;
       }
 
       .toggle {
@@ -442,32 +471,14 @@
         </article>
 
         <article class="section">
-          <h2 class="section-title">目標設定</h2>
+          <h2 class="section-title">月間目標設定</h2>
           <div class="section-body">
             <div class="table">
-              <div class="cell label">
-                <span class="tooltip-host">
-                  月間利益目標
-                  <span class="tooltip-mark" tabindex="0">?</span>
-                  <span class="tooltip-bubble">TOP画面にて、設定した月間の目標利益金額と現時点の利益を比較することができます。</span>
-                </span>
-              </div><div class="cell"><div class="input-with-unit"><input id="monthly-profit-goal" class="setting-input" type="number" inputmode="decimal" value="3" min="0" step="1" /><span class="unit">万円</span></div></div>
-              <div class="cell label">÷</div><div class="cell"></div>
-              <div class="cell label">
-                <span class="tooltip-host">
-                  利益率目標
-                  <span class="tooltip-mark" tabindex="0">?</span>
-                  <span class="tooltip-bubble">月間売上目標を算出するために使用する目標利益率です。</span>
-                </span>
-              </div><div class="cell"><div class="input-with-unit"><input id="profit-rate-goal" class="setting-input" type="number" value="10" min="0" step="1" /><span class="unit">%</span></div></div>
-              <div class="cell label">＝</div><div class="cell"></div>
-              <div class="cell label">
-                <span class="tooltip-host">
-                  月間売上目標
-                  <span class="tooltip-mark" tabindex="0">?</span>
-                  <span class="tooltip-bubble">TOP画面にて、設定した月間の目標売上金額と現時点の売上を比較することができます。</span>
-                </span>
-              </div><div class="cell"><div class="input-with-unit"><input id="monthly-sales-goal" class="setting-input" type="number" inputmode="decimal" value="30" min="0" step="1" /><span class="unit">万円</span></div></div>
+              <div class="cell label">利益目標</div><div class="cell"><div class="input-with-unit"><input id="monthly-profit-goal" class="setting-input" type="number" inputmode="decimal" value="3" min="0" step="1" /><span class="unit">万円</span></div></div>
+              <div class="cell label">利益率目標</div><div class="cell"><div class="input-with-unit"><input id="profit-rate-goal" class="setting-input is-optional" type="number" value="10" min="0" step="1" /><span class="unit">%</span></div></div>
+              <div class="cell label">売上目標</div><div class="cell"><div class="input-with-unit"><input id="monthly-sales-goal" class="setting-input is-optional" type="number" inputmode="decimal" value="30" min="0" step="1" /><span class="unit">万円</span></div></div>
+              <div class="cell label">原価率</div><div class="cell"><div class="input-with-unit compact"><div id="cost-rate" class="readonly-value tight inline-value">90</div><span class="unit">%</span></div></div>
+              <div class="cell label">原価金額</div><div class="cell"><div class="input-with-unit compact"><div id="purchase-estimate" class="readonly-value tight inline-value">27</div><span class="unit">万円</span></div></div>
             </div>
           </div>
         </article>
@@ -639,6 +650,8 @@
       const monthlyProfitGoalInput = document.getElementById("monthly-profit-goal");
       const profitRateGoalInput = document.getElementById("profit-rate-goal");
       const monthlySalesGoalInput = document.getElementById("monthly-sales-goal");
+      const costRateValue = document.getElementById("cost-rate");
+      const purchaseEstimateInput = document.getElementById("purchase-estimate");
       const tooltipHosts = document.querySelectorAll(".tooltip-host");
       const toggleCheckboxes = document.querySelectorAll(".toggle input[type='checkbox']");
       const updateButton = document.getElementById("update-button");
@@ -735,7 +748,13 @@
       const parseRateInputValue = (input) => {
         if (!input) return null;
         const numeric = Number(input.value);
-        if (!Number.isFinite(numeric) || numeric <= 0) return null;
+        if (!Number.isFinite(numeric) || numeric < 0 || numeric > 100) return null;
+        return numeric;
+      };
+
+      const parsePositiveRateInputValue = (input) => {
+        const numeric = parseRateInputValue(input);
+        if (numeric === null || numeric <= 0) return null;
         return numeric;
       };
 
@@ -745,27 +764,47 @@
         input.value = Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
       };
 
+      const setReadonlyValue = (el, value) => {
+        if (!el || !Number.isFinite(value)) return;
+        const rounded = Math.round(value * 10) / 10;
+        el.textContent = Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
+      };
+
+      const recalculateDerivedGoals = () => {
+        if (!monthlySalesGoalInput || !monthlyProfitGoalInput || !profitRateGoalInput || !costRateValue || !purchaseEstimateInput) return;
+        const monthlySales = parseAmountInputValue(monthlySalesGoalInput);
+        const monthlyProfit = parseAmountInputValue(monthlyProfitGoalInput);
+        const profitRate = parseRateInputValue(profitRateGoalInput);
+        if (monthlySales === null || monthlyProfit === null || profitRate === null) return;
+        setReadonlyValue(costRateValue, 100 - profitRate);
+        setReadonlyValue(purchaseEstimateInput, monthlySales - monthlyProfit);
+      };
+
       const recalculateGoals = (changedField) => {
         if (!monthlyProfitGoalInput || !profitRateGoalInput || !monthlySalesGoalInput) return;
         const monthlyProfit = parseAmountInputValue(monthlyProfitGoalInput);
         const monthlySales = parseAmountInputValue(monthlySalesGoalInput);
-        const profitRate = parseRateInputValue(profitRateGoalInput);
+        const profitRate = parsePositiveRateInputValue(profitRateGoalInput);
 
         if (changedField === "profitRate") {
           if (monthlyProfit === null || profitRate === null) return;
           setAmountInputValue(monthlySalesGoalInput, (monthlyProfit * 100) / profitRate);
+          recalculateDerivedGoals();
           return;
         }
 
         if (changedField === "monthlyProfit") {
           if (monthlyProfit === null || profitRate === null) return;
           setAmountInputValue(monthlySalesGoalInput, (monthlyProfit * 100) / profitRate);
+          recalculateDerivedGoals();
           return;
         }
 
         if (changedField === "monthlySales") {
-          if (monthlySales === null || profitRate === null) return;
-          setAmountInputValue(monthlyProfitGoalInput, (monthlySales * profitRate) / 100);
+          const profitRateForMonthlySales = parseRateInputValue(profitRateGoalInput);
+          if (monthlySales === null || profitRateForMonthlySales === null) return;
+          setAmountInputValue(monthlyProfitGoalInput, (monthlySales * profitRateForMonthlySales) / 100);
+          recalculateDerivedGoals();
         }
       };
 
@@ -876,6 +915,7 @@
         }, 3000);
       });
 
+      recalculateDerivedGoals();
       removeMergeConflictMarkers();
       syncSlcRows();
       syncTermValues();
