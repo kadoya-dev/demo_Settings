@@ -123,6 +123,17 @@
         background: #fff;
       }
 
+      .setting-input.is-optional {
+        background: #f2f4fb;
+        border-color: #b9c7e8;
+      }
+
+      .setting-input.is-optional:focus {
+        outline: none;
+        border-color: #b9c7e8;
+        background: #fff;
+      }
+
       .readonly-value {
         width: 100%;
         max-width: 180px;
@@ -475,6 +486,13 @@
         .abc { grid-template-columns: 1fr; }
         .table .cell,
         .abc div { border-right: none !important; }
+        .goal-main-row {
+          grid-template-columns: 1fr;
+          gap: 4px;
+        }
+        .goal-rate-row {
+          justify-content: flex-start;
+        }
       }
     </style>
   </head>
@@ -874,6 +892,9 @@
       });
       profitRateGoalInput?.addEventListener("input", () => {
         recalculateGoals("profitRate");
+      });
+      fundRateInput?.addEventListener("input", () => {
+        recalculatePurchaseEstimate();
       });
 
       usageRadios.forEach((radio) => {
