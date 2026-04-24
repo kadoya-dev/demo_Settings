@@ -183,6 +183,18 @@
         color: #5c6f94;
       }
 
+      .goal-derived-row {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .goal-field-label.sub {
+        font-size: 12px;
+        margin-bottom: 4px;
+        color: #516791;
+      }
+
       .readonly-value.tight {
         max-width: 90px;
         min-height: 30px;
@@ -482,6 +494,9 @@
           padding: 0;
           text-align: center;
         }
+        .goal-derived-row {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
   </head>
@@ -511,10 +526,10 @@
                   <div class="goal-field-label">利益目標</div>
                   <div class="input-with-unit"><input id="monthly-profit-goal" class="setting-input" type="number" inputmode="decimal" value="3" min="0" step="1" /><span class="unit">万円</span></div>
                 </div>
-                <div class="goal-operator">＋</div>
+                <div class="goal-operator">÷</div>
                 <div class="goal-field">
-                  <div class="goal-field-label">仕入れ目安金額</div>
-                  <div class="input-with-unit compact"><div id="purchase-estimate" class="readonly-value tight">27</div><span class="unit">万円</span></div>
+                  <div class="goal-field-label">利益率目標</div>
+                  <div class="input-with-unit"><input id="profit-rate-goal" class="setting-input" type="number" value="10" min="0" step="1" /><span class="unit">%</span></div>
                 </div>
                 <div class="goal-operator">＝</div>
                 <div class="goal-field">
@@ -522,24 +537,17 @@
                   <div class="input-with-unit"><input id="monthly-sales-goal" class="setting-input" type="number" inputmode="decimal" value="30" min="0" step="1" /><span class="unit">万円</span></div>
                 </div>
               </div>
-              <p class="goal-formula-note">※ 利益目標 + 仕入れ目安金額 = 売上目標</p>
-              <div class="goal-formula-row">
+              <p class="goal-formula-note">※ 利益目標 ÷ 利益率目標 = 売上目標</p>
+              <div class="goal-derived-row">
                 <div class="goal-field">
-                  <div class="goal-field-label">利益率目標</div>
-                  <div class="input-with-unit"><input id="profit-rate-goal" class="setting-input" type="number" value="10" min="0" step="1" /><span class="unit">%</span></div>
+                  <div class="goal-field-label sub">（仕入れ目安金額）</div>
+                  <div class="input-with-unit compact"><div id="purchase-estimate" class="readonly-value tight">27</div><span class="unit">万円</span></div>
                 </div>
-                <div class="goal-operator">＋</div>
                 <div class="goal-field">
-                  <div class="goal-field-label">原価率</div>
+                  <div class="goal-field-label sub">（原価率）</div>
                   <div class="input-with-unit compact"><div id="cost-rate" class="readonly-value tight">90</div><span class="unit">%</span></div>
                 </div>
-                <div class="goal-operator">＝</div>
-                <div class="goal-field">
-                  <div class="goal-field-label">合計</div>
-                  <div class="input-with-unit compact"><div class="readonly-value tight">100</div><span class="unit">%</span></div>
-                </div>
               </div>
-              <p class="goal-formula-note">※ 利益率目標 + 原価率 = 100%</p>
             </div>
           </div>
         </article>
