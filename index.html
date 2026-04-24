@@ -463,6 +463,13 @@
         .abc { grid-template-columns: 1fr; }
         .table .cell,
         .abc div { border-right: none !important; }
+        .goal-main-row {
+          grid-template-columns: 1fr;
+          gap: 4px;
+        }
+        .goal-rate-row {
+          justify-content: flex-start;
+        }
       }
     </style>
   </head>
@@ -862,6 +869,9 @@
       });
       profitRateGoalInput?.addEventListener("input", () => {
         recalculateGoals("profitRate");
+      });
+      fundRateInput?.addEventListener("input", () => {
+        recalculatePurchaseEstimate();
       });
 
       usageRadios.forEach((radio) => {
