@@ -130,10 +130,63 @@
         width: 100%;
       }
 
+      .input-with-unit.compact {
+        gap: 4px;
+      }
+
       .unit {
         color: var(--muted);
         font-size: 14px;
         white-space: nowrap;
+      }
+
+      .goal-layout {
+        display: grid;
+        gap: 10px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #f7f9ff;
+        padding: 10px;
+      }
+
+      .goal-formula-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+        gap: 8px;
+        align-items: end;
+      }
+
+      .goal-field {
+        border: 1px solid #ccd6ef;
+        border-radius: 10px;
+        background: #fff;
+        padding: 8px;
+      }
+
+      .goal-field-label {
+        font-size: 13px;
+        font-weight: 700;
+        color: #28426f;
+        margin-bottom: 6px;
+      }
+
+      .goal-operator {
+        font-size: 18px;
+        font-weight: 700;
+        color: #3c5586;
+        padding-bottom: 8px;
+      }
+
+      .goal-formula-note {
+        margin: -2px 0 0;
+        font-size: 12px;
+        color: #5c6f94;
+      }
+
+      .readonly-value.tight {
+        max-width: 90px;
+        min-height: 30px;
+        padding: 0;
       }
 
       .toggle {
@@ -421,6 +474,14 @@
         .abc { grid-template-columns: 1fr; }
         .table .cell,
         .abc div { border-right: none !important; }
+        .goal-formula-row {
+          grid-template-columns: 1fr;
+          align-items: stretch;
+        }
+        .goal-operator {
+          padding: 0;
+          text-align: center;
+        }
       }
     </style>
   </head>
@@ -444,32 +505,41 @@
         <article class="section">
           <h2 class="section-title">月間目標設定</h2>
           <div class="section-body">
-            <div class="table">
-              <div class="cell label">
-                <span class="tooltip-host">
-                  利益目標
-                  <span class="tooltip-mark" tabindex="0">?</span>
-                  <span class="tooltip-bubble">TOP画面にて、設定した月間の目標利益金額と現時点の利益を比較することができます。</span>
-                </span>
-              </div><div class="cell"><div class="input-with-unit"><input id="monthly-profit-goal" class="setting-input" type="number" inputmode="decimal" value="3" min="0" step="1" /><span class="unit">万円</span></div></div>
-              <div class="cell label">÷</div><div class="cell"></div>
-              <div class="cell label">
-                <span class="tooltip-host">
-                  利益率目標
-                  <span class="tooltip-mark" tabindex="0">?</span>
-                  <span class="tooltip-bubble">売上目標を算出するために使用する目標利益率です。</span>
-                </span>
-              </div><div class="cell"><div class="input-with-unit"><input id="profit-rate-goal" class="setting-input" type="number" value="10" min="0" step="1" /><span class="unit">%</span></div></div>
-              <div class="cell label">＝</div><div class="cell"></div>
-              <div class="cell label">
-                <span class="tooltip-host">
-                  売上目標
-                  <span class="tooltip-mark" tabindex="0">?</span>
-                  <span class="tooltip-bubble">TOP画面にて、設定した月間の目標売上金額と現時点の売上を比較することができます。</span>
-                </span>
-              </div><div class="cell"><div class="input-with-unit"><input id="monthly-sales-goal" class="setting-input" type="number" inputmode="decimal" value="30" min="0" step="1" /><span class="unit">万円</span></div></div>
-              <div class="cell label">原価率</div><div class="cell"><div class="input-with-unit"><div id="cost-rate" class="readonly-value">90</div><span class="unit">%</span></div></div>
-              <div class="cell label">仕入れ目安金額</div><div class="cell"><div class="input-with-unit"><div id="purchase-estimate" class="readonly-value">27</div><span class="unit">万円</span></div></div>
+            <div class="goal-layout">
+              <div class="goal-formula-row">
+                <div class="goal-field">
+                  <div class="goal-field-label">利益目標</div>
+                  <div class="input-with-unit"><input id="monthly-profit-goal" class="setting-input" type="number" inputmode="decimal" value="3" min="0" step="1" /><span class="unit">万円</span></div>
+                </div>
+                <div class="goal-operator">＋</div>
+                <div class="goal-field">
+                  <div class="goal-field-label">仕入れ目安金額</div>
+                  <div class="input-with-unit compact"><div id="purchase-estimate" class="readonly-value tight">27</div><span class="unit">万円</span></div>
+                </div>
+                <div class="goal-operator">＝</div>
+                <div class="goal-field">
+                  <div class="goal-field-label">売上目標</div>
+                  <div class="input-with-unit"><input id="monthly-sales-goal" class="setting-input" type="number" inputmode="decimal" value="30" min="0" step="1" /><span class="unit">万円</span></div>
+                </div>
+              </div>
+              <p class="goal-formula-note">※ 利益目標 + 仕入れ目安金額 = 売上目標</p>
+              <div class="goal-formula-row">
+                <div class="goal-field">
+                  <div class="goal-field-label">利益率目標</div>
+                  <div class="input-with-unit"><input id="profit-rate-goal" class="setting-input" type="number" value="10" min="0" step="1" /><span class="unit">%</span></div>
+                </div>
+                <div class="goal-operator">＋</div>
+                <div class="goal-field">
+                  <div class="goal-field-label">原価率</div>
+                  <div class="input-with-unit compact"><div id="cost-rate" class="readonly-value tight">90</div><span class="unit">%</span></div>
+                </div>
+                <div class="goal-operator">＝</div>
+                <div class="goal-field">
+                  <div class="goal-field-label">合計</div>
+                  <div class="input-with-unit compact"><div class="readonly-value tight">100</div><span class="unit">%</span></div>
+                </div>
+              </div>
+              <p class="goal-formula-note">※ 利益率目標 + 原価率 = 100%</p>
             </div>
           </div>
         </article>
