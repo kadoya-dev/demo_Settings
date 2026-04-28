@@ -3,12 +3,12 @@
 基本設定	ショップ名表示	.readonly-value	テキスト表示	ショップ名	出力	mesaia japan	読み取り専用	表示テキスト
 基本設定	セラーID表示	.readonly-value	テキスト表示	セラーID	出力	AS～～	読み取り専用	表示テキスト
 基本設定	SLC会員番号表示	.readonly-value	テキスト表示	SLC会員番号	出力	AZ001	読み取り専用	表示テキスト
-月間目標設定	利益目標入力	#monthly-profit-goal	数値入力	利益目標	入出力	3	min=0、step=1、単位「万円」	input.value
-月間目標設定	利益率目標入力	#profit-rate-goal	数値入力	利益率目標	入出力	10	min=0、step=1、単位「%」	input.value
-月間目標設定	売上目標入力	#monthly-sales-goal	数値入力	売上目標	入出力	30	min=0、step=1、単位「万円」	input.value
-月間目標設定	原価率表示	#cost-rate	テキスト表示	原価率	出力	90	読み取り専用（利益率目標から自動計算）	textContent
-月間目標設定	原価金額表示	#purchase-estimate	テキスト表示	原価金額	出力	27	読み取り専用（売上目標・利益目標から自動計算）	textContent
-リサーチ設定	粗利益率入力	.setting-input	数値入力	粗利益率	入出力	5	min=0、単位「%以上を表示」	input.value
+月間達成条件設定	見込み粗利益入力	#monthly-profit-goal	数値入力	見込み粗利益	入出力	3	min=0、step=1、単位「万円」	input.value
+月間達成条件設定	見込み粗利益率入力	#profit-rate-goal	数値入力	見込み粗利益率	入出力	10	min=0、step=1、単位「%」	input.value
+月間達成条件設定	見込み入金額入力	#monthly-sales-goal	数値入力	見込み入金額	入出力	30	min=0、step=1、単位「万円」	input.value
+月間達成条件設定	原価率表示	#cost-rate	テキスト表示	原価率	出力	90	読み取り専用（見込み粗利益率から自動計算）	textContent
+月間達成条件設定	必要仕入れ額表示	#purchase-estimate	テキスト表示	必要仕入れ額	出力	27	読み取り専用（見込み入金額・見込み粗利益から自動計算）	textContent
+リサーチ設定	見込み粗利益率入力	.setting-input	数値入力	見込み粗利益率	入出力	5	min=0、単位「%以上を表示」	input.value
 リサーチ設定	予測30日販売数入力	.setting-input	数値入力	予測30日販売数	入出力	1	min=0、単位「個以上を表示」	input.value
 リサーチ設定	知財表示切替	.toggle input[type='checkbox']	チェックボックス	知財	入出力	チェックON（表示）	data-on-label=表示、data-off-label=非表示	input.checked
 リサーチ設定	大型表示切替	.toggle input[type='checkbox']	チェックボックス	大型	入出力	チェックON（表示）	data-on-label=表示、data-off-label=非表示	input.checked
